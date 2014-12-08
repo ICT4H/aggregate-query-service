@@ -17,6 +17,7 @@
     (is (= [{:queryGroupname "Query Group 1" :queries [{:queryName "Query 1", :query "select * from something;"} {:queryName "Query 2", :query "select * from something_else;"}]} {:queryGroupname "Query Group 2", :queries [{:queryName "Query 1", :query "select * from one_more_thing;"} {:queryName "Query 2", :query "select * from another_thing;"}]}]
            (test-config-mapping)))))
 
-(deftest execute-all-queries-from-config
-  (testing "Execute all queries"
-    (println (aqs/execute-all-queries "resources/sample_config.json"))))
+(deftest sql-construction
+  (testing "Construct sql by replacing start-date and end-date"
+    (is (= "select * from something where start-date > 10-11-2014 and end-date < 10-11-2015;"
+           (aqs/construct-sql {:query "select * from something where start-date > startDate and end-date < endDate;" :start-date "10-11-2014" :end-date "10-11-2015"})))))
