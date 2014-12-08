@@ -1,7 +1,7 @@
 (ns aggregate-query-service.core
+  (:require [clojure.data.json :as json])
   (:gen-class))
 
-(defn -main
-  "Yay Clojure Module"
-  [& args]
-  (println "Hello ICT4H"))
+(defn read-config
+  [config-file]
+  (json/read-str (slurp config-file) :key-fn keyword))
