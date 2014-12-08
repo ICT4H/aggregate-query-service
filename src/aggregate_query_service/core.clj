@@ -1,6 +1,11 @@
 (ns aggregate-query-service.core
-  (:require [clojure.data.json :as json])
+  (:require [clojure.data.json :as json]
+            [clojure.java.jdbc :as jdbc])
   (:gen-class))
+
+(defn execute-sql
+  [query]
+  ((jdbc/get-connection {:datasource data-source} )))
 
 (defn read-config
   [config-file]
@@ -13,12 +18,13 @@
 
 (defn fire-query
   [query]
-  ((construct-sql query)))
+  (execute-sql (construct-sql query)))
+
 
 (defn fire-queries
   [{queries :queries start-date :start-date end-date :end-date}]
   (pmap fire-query (map (fn [query] (assoc query :start-date start-date :end-date end-date)) queries)))
 
 (defn execute-all-queries
-  [config-file start-date end-date]
+  [config-file start-date end-date data-source]
   (pmap fire-queries (assoc (read-config config-file) :start-date start-date :end-date end-date)))
