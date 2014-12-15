@@ -33,13 +33,15 @@
 
 (defn render-query
   [query-params-map query]
-  (if (empty? query-params-map)
-    query
-    (let [key (ffirst query-params-map)
-          reduced-map (dissoc query-params-map key)
-          param-value (get query-params-map key)
-          param-name (name key)]
-      (render-query reduced-map (replace-param query param-value param-name)))))
+  (loop [query-params-map query-params-map
+         query query]
+    (if (empty? query-params-map)
+      query
+      (let [key (ffirst query-params-map)
+            reduced-map (dissoc query-params-map key)
+            param-value (get query-params-map key)
+            param-name (name key)]
+        (recur reduced-map (replace-param query param-value param-name))))))
 
 (defn render-queries
   [query-params-map query-list]
