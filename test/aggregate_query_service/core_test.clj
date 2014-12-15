@@ -17,7 +17,7 @@
     (is (= [{:queryGroupname "Query Group 1" :queries [{:queryName "Query 1", :query "select * from something;"} {:queryName "Query 2", :query "select * from something_else;"}]} {:queryGroupname "Query Group 2", :queries [{:queryName "Query 1", :query "select * from one_more_thing;"} {:queryName "Query 2", :query "select * from another_thing;"}]}]
            (test-config-mapping)))))
 
-(deftest sql-construction
-  (testing "Construct sql by replacing start-date and end-date"
-    (is (= "select * from something where start-date > 10-11-2014 and end-date < 10-11-2015;"
-           (aqs/construct-sql {:query "select * from something where start-date > startDate and end-date < endDate;" :start-date "10-11-2014" :end-date "10-11-2015"})))))
+(deftest query-self-sufficiency
+  (testing "Add query group name to query object"
+    (is (= `({:queryGroupname "Query Group 1" :query "select * from something;" :queryName "Query 1"} {:queryGroupname "Query Group 1" :queryName "Query 2", :query "select * from something_else;"})
+(aqs/get-queries (first (test-config-mapping)))))))
