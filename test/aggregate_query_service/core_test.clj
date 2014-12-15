@@ -22,10 +22,15 @@
     (is (= `({:queryGroupname "Query Group 1" :query "select * from something;" :queryName "Query 1"} {:queryGroupname "Query Group 1" :queryName "Query 2", :query "select * from something_else;"})
 (aqs/get-queries (first (test-config-mapping)))))))
 
-(deftest query-rendering
+(deftest queries-rendering
   (testing "Render queries with appropriate params"
     (is (= '({:queryGroupname "Query Group 1" :query "select * from something where endDate < renderedEndDate;" :queryName "Query 1"} {:queryGroupname "Query Group 1" :queryName "Query 2", :query "select * from something_else where startDate > renderedStartDate;"})
            (aqs/render-queries
              (hash-map :endDate "renderedEndDate" :startDate "renderedStartDate")
              '({:queryGroupname "Query Group 1" :query "select * from something where endDate < :endDate:;" :queryName "Query 1"} {:queryGroupname "Query Group 1" :queryName "Query 2", :query "select * from something_else where startDate > :startDate:;"})
              )))))
+
+(deftest query-rendering
+  (testing "Render query with appropriate params"
+    (is (= {:query "select rdThis from rdThat and rpThis and rpThat;"}
+           (aqs/render-query (hash-map :renderThis "rdThis" :renderThat "rdThat" :replaceThis "rpThis" :replaceThat "rpThat") {:query "select :renderThis: from :renderThat: and :replaceThis: and :replaceThat:;"})))))

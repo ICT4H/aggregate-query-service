@@ -7,7 +7,10 @@
 
 (defn is-substring-of
   [sub-string string]
-  (not-nil? (re-find (re-pattern sub-string) string)))
+  (->> sub-string
+       (re-pattern)
+       (#(re-find % string))
+       (not-nil?)))
 
 (defn read-config
   [config-file]
@@ -25,22 +28,26 @@
         sql-query (get query :query)]
     (if (is-substring-of search-param sql-query)
       (assoc query :query (clojure.string/replace sql-query search-param param-value))
+      query
       )))
 
 (defn render-query
   [query-params-map query]
-  (filter not-nil? (map #(replace-param query (get query-params-map %1) (name %1)) (keys query-params-map))))
-
+  (if (empty? query-params-map)
+    query
+    (let [key (ffirst query-params-map)
+          reduced-map (dissoc query-params-map key)
+          param-value (get query-params-map key)
+          param-name (name key)]
+      (render-query reduced-map (replace-param query param-value param-name)))))
 
 (defn render-queries
   [query-params-map query-list]
-  (flatten (map #(render-query query-params-map %1) query-list))
-  )
+  (flatten (map (partial render-query query-params-map) query-list)))
 
 (defn run-queries-and-get-results
   [config-file data-source query-params-map]
   (->> (read-config config-file)
        (map get-queries)
-       (flatten)
        (render-queries query-params-map))
   )
