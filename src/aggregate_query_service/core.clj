@@ -45,7 +45,7 @@
 
 (defn render-queries
   [query-params-map query-list]
-  (flatten (map (partial render-query query-params-map) query-list)))
+  (map (partial render-query query-params-map) query-list))
 
 (defn run-queries-and-get-results
   [config-file data-source query-params-map]
