@@ -47,9 +47,17 @@
   [query-params-map query-list]
   (map (partial render-query query-params-map) query-list))
 
+(defn fire-query
+  [data-source query]
+  (let [db-spec {:datasource data-source}
+        sql-query (get query :query)]
+      (assoc query :result (jdbc/db-query-with-resultset db-spec [sql-query] identity))
+    ))
+
 (defn run-queries-and-get-results
   [config-file data-source query-params-map]
   (->> (read-config config-file)
        (map get-queries)
-       (render-queries query-params-map))
+       (render-queries query-params-map)
+       (pmap (partial fire-query data-source)))
   )
