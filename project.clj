@@ -1,13 +1,28 @@
-(defproject aggregate-query-service "0.1.0-SNAPSHOT"
-  :description "Aggregate Query Service"
-  :url "https://github.com/ICT4H"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/data.json "0.2.5"]
-                 [org.clojure/java.jdbc "0.3.6"]
-                 [mysql/mysql-connector-java "5.1.25"]]
-  :main ^:skip-aot aggregate-query-service.core
-  :resource-paths ["src/main/resource"]
-  :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+(defproject org.ict4h/aggregate-query-service "0.1.0-SNAPSHOT"
+            :description "Aggregate Query Service"
+            :url "https://github.com/ICT4H/aggregate-query-service"
+            :license {:name "Apache License, Version 2.0"
+                      :url  "http://www.apache.org/licenses/LICENSE-2.0.html"}
+            :dependencies [[org.clojure/clojure "1.6.0"]
+                           [org.clojure/data.json "0.2.5"]
+                           [org.clojure/java.jdbc "0.3.6"]
+                           [mysql/mysql-connector-java "5.1.25"]]
+            :main ^:skip-aot aggregate-query-service.core
+            :resource-paths ["src/main/resource"]
+            :target-path "target/%s"
+            :profiles {:uberjar {:aot :all}}
+            :group-id "org.ict4h"
+            :artifact-id "aggregate-query-service"
+            :parent [org.sonatype.oss/oss-parent "7"]
+            :packaging "jar"
+            :name "aggregate-query-service"
+            :repositories [["snapshots" {:url       "https://oss.sonatype.org/content/repositories/snapshots"
+                                         :id        "sonatype-nexus-snapshots"
+                                         :name      "Sonatype Nexus Snapshots"
+                                         :releases  false
+                                         :snapshots true}]]
+            :scm {:name                 "git"
+                  :tag                  "HEAD"
+                  :url                  "https://github.com/ICT4H/aggregate-query-service"
+                  :connection           "scm:git:git@github.com:ICT4H/aggregate-query-service.git"
+                  :developer-connection "scm:git:git@github.com:ICT4H/aggregate-query-service.git"})
