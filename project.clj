@@ -25,6 +25,7 @@
                                          :snapshots true
                                          :username "ict4h"
                                          :password :env}]]
+            :plugins [[lein-midje "3.1.3"]]
             :scm {:name                 "git"
                   :tag                  "HEAD"
                   :url                  "https://github.com/ICT4H/aggregate-query-service"
