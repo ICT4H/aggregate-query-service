@@ -22,7 +22,9 @@
                                          :id        "sonatype-nexus-snapshots"
                                          :name      "Sonatype Nexus Snapshots"
                                          :releases  false
-                                         :snapshots true}]]
+                                         :snapshots true
+                                         :username "ict4h"
+                                         :password :env}]]
             :scm {:name                 "git"
                   :tag                  "HEAD"
                   :url                  "https://github.com/ICT4H/aggregate-query-service"
