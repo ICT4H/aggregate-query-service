@@ -9,7 +9,7 @@
                            [mysql/mysql-connector-java "5.1.25"]
                            [midje "1.6.3"]]
             :main ^:skip-aot aggregate-query-service.core
-            :resource-paths ["src/main/resource"]
+            :resource-paths ["resource"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
             :aliases {"test" ["midje"]}
