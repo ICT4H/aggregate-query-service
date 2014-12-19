@@ -1,8 +1,11 @@
 (ns aggregate-query-service.core-test
-  (:import (java.io FileNotFoundException))
+  (:import (java.io FileNotFoundException)
+           (org.postgresql.ds PGPoolingDataSource))
   (:use midje.sweet)
   (:require [clojure.test :refer :all]
-            [aggregate-query-service.core :refer :all :as aqs]))
+            [aggregate-query-service.core :refer :all :as aqs]
+            [clojure.java.jdbc :as jdbc]
+            [aggregate-query-service.data-setup :as ds]))
 
 (defn test-config-mapping
   ([]
@@ -43,3 +46,11 @@
                                {:query "select :renderThis: from :renderThat: and :replaceThis: and :replaceThat:;"})
              =>
              {:query "select rdThis from rdThat and rpThis and rpThat;"}))
+;
+;(facts "End to end integration test"
+;       (with-state-changes [(before :facts (ds/setup-data))
+;                            (after :facts (ds/tear-down))]
+;                           (fact "Read JSON and fire queries and return back the result set"
+;                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map))
+;                                 =>
+;                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map)))))

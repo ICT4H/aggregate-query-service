@@ -70,6 +70,7 @@
   [config-file data-source query-params-map]
   (->> (read-config config-file)
        (map get-queries)
+       (flatten)
        (render-queries query-params-map)
        (pmap (partial fire-query data-source)))
   )
