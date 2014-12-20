@@ -6,10 +6,8 @@
             :dependencies [[org.clojure/clojure "1.6.0"]
                            [org.clojure/data.json "0.2.5"]
                            [org.clojure/java.jdbc "0.3.6"]
-                           [mysql/mysql-connector-java "5.1.25"]
                            [midje "1.6.3"]
-                           [postgresql "9.3-1102.jdbc41"]
-                           [environ "0.5.0"]]
+                           [org.xerial/sqlite-jdbc "3.8.7"]]
             :main ^:skip-aot aggregate-query-service.core
             :resource-paths ["resource"]
             :target-path "target/%s"

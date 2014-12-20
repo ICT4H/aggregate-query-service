@@ -1,15 +1,10 @@
 (ns aggregate-query-service.data-setup
-  (:import (org.postgresql.ds PGPoolingDataSource)
-           (java.sql BatchUpdateException))
-  (:require [clojure.java.jdbc :as jdbc]
-            [environ.core :refer [env]]))
+  (:import (java.sql BatchUpdateException)
+           (org.sqlite.javax SQLiteConnectionPoolDataSource))
+  (:require [clojure.java.jdbc :as jdbc]))
 
-(def db-spec {:datasource (doto (new PGPoolingDataSource)
-                            (.setServerName "localhost")
-                            (.setDatabaseName "test")
-                            (.setUser "postgres")
-                            (.setPassword "")
-                            (.setMaxConnections 10))})
+(def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
+                            (.setUrl "jdbc:sqlite:db/test.db"))})
 
 (defn insert-in-table-name-map
   [{table-name :table-name, data-to-insert :data}]

@@ -61,8 +61,9 @@
   [data-source query]
   (let [db-spec {:datasource data-source}
         sql-query (get query :query)]
-    (assoc query :result (jdbc/db-query-with-resultset db-spec [sql-query] identity))
-    ))
+    (->> (jdbc/query db-spec [sql-query])
+         (assoc query :result)
+         )))
 
 (defn run-queries-and-get-results
   "Takes in the path to the configuration file, data source and a hash map of parameters for

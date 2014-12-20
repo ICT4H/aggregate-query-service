@@ -1,10 +1,8 @@
 (ns aggregate-query-service.core-test
-  (:import (java.io FileNotFoundException)
-           (org.postgresql.ds PGPoolingDataSource))
+  (:import (java.io FileNotFoundException))
   (:use midje.sweet)
   (:require [clojure.test :refer :all]
             [aggregate-query-service.core :refer :all :as aqs]
-            [clojure.java.jdbc :as jdbc]
             [aggregate-query-service.data-setup :as ds]))
 
 (defn test-config-mapping
@@ -46,11 +44,18 @@
                                {:query "select :renderThis: from :renderThat: and :replaceThis: and :replaceThat:;"})
              =>
              {:query "select rdThis from rdThat and rpThis and rpThat;"}))
-;
-;(facts "End to end integration test"
-;       (with-state-changes [(before :facts (ds/setup-data))
-;                            (after :facts (ds/tear-down))]
-;                           (fact "Read JSON and fire queries and return back the result set"
-;                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map))
-;                                 =>
-;                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map)))))
+
+(facts "End to end integration test"
+       (with-state-changes [(before :facts (ds/setup-data))
+                            (after :facts (ds/tear-down))]
+                           (fact "Read JSON and fire queries and return back the result set"
+                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map))
+                                 =>
+                                 '({:result         ({:name "Some Name", :id 1}),
+                                    :queryGroupname "Query Group 1", :queryName "Query 1", :query "select * from something;"}
+                                    {:result         ({:name "Some Other Name", :id 2}),
+                                     :queryGroupname "Query Group 1", :queryName "Query 2", :query "select * from something_else;"}
+                                    {:result         ({:name "One More Name", :id 6}),
+                                     :queryGroupname "Query Group 2", :queryName "Query 1", :query "select * from one_more_thing;"}
+                                    {:result         ({:name "Another Name", :id 4}),
+                                     :queryGroupname "Query Group 2", :queryName "Query 2", :query "select * from another_thing;"}))))
