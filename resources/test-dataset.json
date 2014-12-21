@@ -1,0 +1,82 @@
+[
+    {
+        "table-name": "something",
+        "table-structure": [
+            {
+                "column-name": "id",
+                "column-datatype": "int"
+            },
+            {
+                "column-name": "name",
+                "column-datatype": "text"
+            }
+        ],
+        "data": [
+            {
+                "id": 1,
+                "name": "Some Name"
+            },
+            {
+                "id": 15,
+                "name": "Some First Name"
+            }
+        ]
+    },
+    {
+        "table-name": "something_else",
+        "table-structure": [
+            {
+                "column-name": "id",
+                "column-datatype": "int"
+            },
+            {
+                "column-name": "name",
+                "column-datatype": "text"
+            }
+        ],
+        "data": [
+            {
+                "id": 2,
+                "name": "Some Other Name"
+            }
+        ]
+    },
+    {
+        "table-name": "one_more_thing",
+        "table-structure": [
+            {
+                "column-name": "id",
+                "column-datatype": "int"
+            },
+            {
+                "column-name": "name",
+                "column-datatype": "text"
+            }
+        ],
+        "data": [
+            {
+                "id": 6,
+                "name": "One More Name"
+            }
+        ]
+    },
+    {
+        "table-name": "another_thing",
+        "table-structure": [
+            {
+                "column-name": "id",
+                "column-datatype": "int"
+            },
+            {
+                "column-name": "name",
+                "column-datatype": "text"
+            }
+        ],
+        "data": [
+            {
+                "id": 4,
+                "name": "Another Name"
+            }
+        ]
+    }
+]

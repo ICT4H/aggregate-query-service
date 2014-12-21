@@ -7,7 +7,8 @@
                            [org.clojure/data.json "0.2.5"]
                            [org.clojure/java.jdbc "0.3.6"]
                            [midje "1.6.3"]
-                           [org.xerial/sqlite-jdbc "3.8.7"]]
+                           [org.xerial/sqlite-jdbc "3.8.7"]
+                           [clojure-test-datasetup/clojure-test-datasetup "0.1.0-SNAPSHOT"]]
             :main ^:skip-aot aggregate-query-service.core
             :resource-paths ["resource"]
             :target-path "target/%s"

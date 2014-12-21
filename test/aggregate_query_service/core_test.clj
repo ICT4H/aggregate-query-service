@@ -1,9 +1,14 @@
 (ns aggregate-query-service.core-test
-  (:import (java.io FileNotFoundException))
+  (:import (java.io FileNotFoundException)
+           (org.sqlite.javax SQLiteConnectionPoolDataSource))
   (:use midje.sweet)
   (:require [clojure.test :refer :all]
             [aggregate-query-service.core :refer :all :as aqs]
-            [aggregate-query-service.data-setup :as ds]))
+            [clojure-test-datasetup.core :as ds]))
+
+(def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
+                            (.setUrl "jdbc:sqlite:db/test.db"))})
+
 
 (defn test-config-mapping
   ([]
@@ -46,12 +51,12 @@
              {:query "select rdThis from rdThat and rpThis and rpThat;"}))
 
 (facts "End to end integration test"
-       (with-state-changes [(before :facts (ds/setup-data))
-                            (after :facts (ds/tear-down))]
+       (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/test-dataset.json" db-spec)))
+                            (after :facts (ds/tear-down-dataset "resources/test-dataset.json" db-spec))]
                            (fact "Read JSON and fire queries and return back the result set"
-                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get ds/db-spec :datasource) (hash-map))
+                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get db-spec :datasource) (hash-map))
                                  =>
-                                 '({:result         ({:name "Some Name", :id 1}),
+                                 '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                                     :queryGroupname "Query Group 1", :queryName "Query 1", :query "select * from something;"}
                                     {:result         ({:name "Some Other Name", :id 2}),
                                      :queryGroupname "Query Group 1", :queryName "Query 2", :query "select * from something_else;"}
