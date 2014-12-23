@@ -1,7 +1,9 @@
-(ns aggregate-query-service.core
+(ns aggregatequeryservice.core
   (:require [clojure.data.json :as json]
             [clojure.java.jdbc :as jdbc])
-  (:gen-class))
+  (:gen-class
+  :name aggregatequeryservice.core.aqs
+  :methods [#^{:static true} [AQS [String javax.sql.DataSource java.util.HashMap] java.util.List]]))
 
 (def not-nil? (complement nil?))
 
@@ -75,3 +77,9 @@
        (render-queries query-params-map)
        (pmap (partial fire-query data-source)))
   )
+
+(defn -AQS
+  [config-file data-source query-params-map]
+  (let [query-params-map (into {} query-params-map)]
+    (run-queries-and-get-results config-file data-source query-params-map)
+    ))

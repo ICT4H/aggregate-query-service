@@ -1,9 +1,9 @@
-(ns aggregate-query-service.core-test
+(ns aggregatequeryservice.core_test
   (:import (java.io FileNotFoundException)
            (org.sqlite.javax SQLiteConnectionPoolDataSource))
   (:use midje.sweet)
   (:require [clojure.test :refer :all]
-            [aggregate-query-service.core :refer :all :as aqs]
+            [aggregatequeryservice.core :refer :all :as aqs]
             [clojure-test-datasetup.core :as ds]))
 
 (def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)

@@ -1,4 +1,4 @@
-(defproject org.ict4h/aggregate-query-service "0.1.0-SNAPSHOT"
+(defproject org.ict4h/aggregate-query-service "1.0-SNAPSHOT"
             :description "Aggregate Query Service"
             :url "https://github.com/ICT4H/aggregate-query-service"
             :license {:name "Apache License, Version 2.0"
