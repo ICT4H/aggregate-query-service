@@ -27,3 +27,6 @@
 (defn first-one
   [coll]
   (first (is-of-size 1 coll)))
+
+(defn sanitize-template [stringified-template]
+  (clojure.string/replace stringified-template #"[\"]" "\""))

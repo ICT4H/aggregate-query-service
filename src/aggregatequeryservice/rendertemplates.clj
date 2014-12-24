@@ -16,6 +16,7 @@
        (map get-query-result)
        (apply merge)))
 
+
 (defn render-template
   [extra-params-map query-results template-map]
   (let [{template-path :template_path query-name-list :query_list} template-map
@@ -32,4 +33,3 @@
   (let [template-list (get aqs-config-map :template_query_map)]
     (map (partial render-template extra-params-map query-results) template-list))
   )
-
