@@ -9,7 +9,7 @@
                            [midje "1.6.3"]
                            [org.xerial/sqlite-jdbc "3.8.7"]
                            [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]]
-            :main ^:skip-aot aggregate-query-service.core
+            :main ^:skip-aot aggregate-query-service.postservice
             :resource-paths ["resource"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}

@@ -1,25 +1,9 @@
-(ns aggregatequeryservice.core
-  (:require [clojure.data.json :as json]
-            [clojure.java.jdbc :as jdbc])
+(ns aggregatequeryservice.runqueries
+  (:require [clojure.java.jdbc :as jdbc])
+  (:use aggregatequeryservice.utils)
   (:gen-class
-  :name aggregatequeryservice.core.aqs
+  :name aggregatequeryservice.runqueries
   :methods [#^{:static true} [AQS [String javax.sql.DataSource java.util.HashMap] java.util.List]]))
-
-(def not-nil? (complement nil?))
-
-(defn is-substring-of
-  "Gives back a boolean output whether the first
-  string is a substring of the second string or not"
-  [sub-string string]
-  (->> sub-string
-       (re-pattern)
-       (#(re-find % string))
-       (not-nil?)))
-
-(defn read-config
-  "Reads the config file from the file path given"
-  [config-file]
-  (json/read-str (slurp config-file) :key-fn keyword))
 
 (defn get-queries
   "Appends query group name to every query object"

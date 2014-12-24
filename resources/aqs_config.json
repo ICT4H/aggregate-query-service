@@ -1,0 +1,19 @@
+{
+  "query_json_path": "resources/sample_config.json",
+  "template_query_map": [
+    {
+      "template_name": "resources/ftl/template1.ftl",
+      "query_list": [
+        "Query 1",
+        "Query 2"
+      ]
+    },
+    {
+      "template_name": "resources/ftl/template2.ftl",
+      "query_list": [
+        "Query 3"
+      ]
+    }
+  ],
+  "http_post_uri": "later"
+}
