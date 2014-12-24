@@ -1,6 +1,5 @@
-(ns aggregatequeryservice.runqueries_test
-  (:import (java.io FileNotFoundException)
-           (org.sqlite.javax SQLiteConnectionPoolDataSource))
+(ns aggregatequeryservice.runqueries-test
+  (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
   (:use [midje.sweet])
   (:require [aggregatequeryservice.runqueries :refer :all :as aqs]
             [aggregatequeryservice.utils :refer :all :as utils]
@@ -11,20 +10,8 @@
 
 
 (defn test-config-mapping
-  ([]
-    (utils/read-config "resources/sample_config.json"))
-  ([config-file]
-    (utils/read-config config-file)))
-
-(facts "Reading Config File"
-       (fact "Throws exception if file not found"
-             (test-config-mapping "doesn'texist") => (throws FileNotFoundException))
-
-       (fact "If file valid, read and convert to hash-map"
-             (test-config-mapping) => [{:queryGroupname "Query Group 1" :queries [{:queryName "Query 1", :query "select * from something;"}
-                                                                                  {:queryName "Query 2", :query "select * from something_else;"}]}
-                                       {:queryGroupname "Query Group 2", :queries [{:queryName "Query 1", :query "select * from one_more_thing;"}
-                                                                                   {:queryName "Query 2", :query "select * from another_thing;"}]}]))
+  []
+  (utils/read-config "resources/sample_config.json"))
 
 (facts "Create self sufficient query object"
        (fact "Add query group name to query object"
