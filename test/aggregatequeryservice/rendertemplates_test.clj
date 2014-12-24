@@ -54,7 +54,9 @@
 
 (facts "Render templates with query results"
        (fact "Render ftl with query results"
-             (rt/render-template extra-params query-results template-map)
+             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map))
              =>
-             "{\"dataSet\":\"Rendered Dataset\",\"period\":\"20141111\",\"orgUnit\":\"71345684\",\"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":Rendered v1},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"DA2N93v7s0O\",\"value\":\"Rendered v2\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"tSwmrlTW11V\",\"value\":\"Rendered v4\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"GYRYyntlK7n\",\"value\":\"Rendered v5\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}")
-       )
+             (clojure.data.json/read-str "{\"dataSet\":\"Rendered Dataset\",
+                   \"period\":\"20141111\",
+                   \"orgUnit\":\"71345684\",
+                   \"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"DA2N93v7s0O\",\"value\":\"Rendered v2\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"tSwmrlTW11V\",\"value\":\"Rendered v4\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"GYRYyntlK7n\",\"value\":\"Rendered v5\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}")))
