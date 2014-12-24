@@ -8,7 +8,8 @@
                            [org.clojure/java.jdbc "0.3.6"]
                            [midje "1.6.3"]
                            [org.xerial/sqlite-jdbc "3.8.7"]
-                           [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]]
+                           [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]
+                           [freemarker-clj "0.1.0"]]
             :main ^:skip-aot aggregate-query-service.postservice
             :resource-paths ["resource"]
             :target-path "target/%s"

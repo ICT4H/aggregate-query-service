@@ -17,3 +17,13 @@
   "Reads the config file from the file path given"
   [config-file]
   (json/read-str (slurp config-file) :key-fn keyword))
+
+(defn is-of-size [size coll]
+  (if (= (count coll) size)
+    coll
+    (throw (RuntimeException. (str "More/Less than " size " element(s) found")))))
+
+
+(defn first-one
+  [coll]
+  (first (is-of-size 1 coll)))
