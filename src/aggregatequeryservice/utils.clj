@@ -30,3 +30,8 @@
 
 (defn sanitize-template [stringified-template]
   (clojure.string/replace stringified-template #"[\"]" "\""))
+
+(defn print-and-return [k]
+  (println "some")
+  (println k)
+  k)

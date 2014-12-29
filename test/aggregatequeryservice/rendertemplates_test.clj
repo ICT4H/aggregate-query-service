@@ -14,10 +14,16 @@
                     :organization "71345684"
                     ))
 
-(def template-map {
-                   :template_path "resources/ftl/template1.ftl"
+(def template-map1 {
+                    :template_path "resources/ftl/template1.ftl"
+                    :query_list    '("Query 19")
+                    })
+
+(def template-map2 {
+                   :template_path "resources/ftl/template2.ftl"
                    :query_list    '("Query 19" "Query 20")
                    })
+
 (def query-results '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                       :queryGroupname "Query Group 1", :queryName "Query 1", :query "select * from something;"}
                       {:result         ({:name "Some Other Name", :id 2}),
@@ -53,10 +59,18 @@
              (throws RuntimeException "More/Less than 1 element(s) found")))
 
 (facts "Render templates with query results"
-       (fact "Render ftl with query results"
-             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map))
+       (fact "Render ftl with one query result"
+             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map1))
              =>
              (clojure.data.json/read-str "{\"dataSet\":\"Rendered Dataset\",
-                   \"period\":\"20141111\",
                    \"orgUnit\":\"71345684\",
-                   \"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"DA2N93v7s0O\",\"value\":\"Rendered v2\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"tSwmrlTW11V\",\"value\":\"Rendered v4\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"GYRYyntlK7n\",\"value\":\"Rendered v5\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}")))
+                   \"period\":\"20141111\",
+                   \"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}"))
+       (fact "Render ftl with multiple query results"
+             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map2))
+             =>
+             (clojure.data.json/read-str "{\"dataSet\":\"Rendered Dataset\",
+                   \"orgUnit\":\"71345684\",
+                   \"period\":\"20141111\",
+                   \"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"DA2N93v7s0O\",\"value\":\"Rendered v2\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"tSwmrlTW11V\",\"value\":\"Rendered v4\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"GYRYyntlK7n\",\"value\":\"Rendered v5\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}"))
+       )
