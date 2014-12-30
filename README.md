@@ -1,6 +1,6 @@
 # aggregate-query-service
 
-FIXME: description
+FIXME: description some
 
 ## Installation
 
