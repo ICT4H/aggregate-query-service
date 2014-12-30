@@ -8,7 +8,7 @@
   :methods [#^{:static true} [renderftlandpost [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] String]]))
 
 (defn post-template [aqs-config-map http-post-headers jsondata]
-  (let [http-post-uri (get aqs-config-map :http-post-uri)
+  (let [http-post-uri (get aqs-config-map :http-post-uri "")
         jsondata (apply str jsondata)]
     (with-open [client (h/create-client)]                   ; Create client
       (let [resp (h/POST client http-post-uri :body jsondata :headers http-post-headers)]

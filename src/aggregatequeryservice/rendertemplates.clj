@@ -21,5 +21,5 @@
 (defn render-templates
   [aqs-config-map extra-params-map query-results]
   (let [template-list (get aqs-config-map :template_query_map)]
-    (doall (map (partial render-template extra-params-map query-results) template-list)))
+    (pmap (partial render-template extra-params-map query-results) template-list))
   )
