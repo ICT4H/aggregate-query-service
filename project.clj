@@ -11,7 +11,7 @@
                            [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]
                            [freemarker-clj "0.1.0"]
                            [http.async.client "0.5.2"]]
-            :main ^:skip-aot aggregate-query-service.postservice
+            :main aggregatequeryservice.postservice
             :resource-paths ["resource"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
