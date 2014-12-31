@@ -4,10 +4,9 @@
 
 (defn get-query-result [query-results query-to-render]
   (->> query-results
-       (filter (fn [query]
-                 (= query-to-render (get query :queryName))))
-       (first)
-       (#(get %1 :result {}))
+       (filter-first (fn [query]
+                       (= query-to-render (get query :queryName))))
+       (:result)
        (first-one))
   )
 
