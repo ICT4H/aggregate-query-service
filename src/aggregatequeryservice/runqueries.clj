@@ -10,8 +10,7 @@
   [query-group]
   (map (fn [query-map]
          (assoc query-map :queryGroupname (get query-group :queryGroupname)))
-       (get query-group :queries []))
-  )
+       (get query-group :queries [])))
 
 (defn replace-param
   "Replace parameter name with parameter value in the SQL query."
@@ -20,8 +19,7 @@
         sql-query (get query :query)]
     (if (is-substring-of search-param sql-query)
       (assoc query :query (clojure.string/replace sql-query search-param param-value))
-      query
-      )))
+      query)))
 
 (defn render-query
   "Takes in a map of query parameters and replaces all the parameters if they exist in the
@@ -48,8 +46,7 @@
   (let [db-spec {:datasource data-source}
         sql-query (get query :query)]
     (->> (jdbc/query db-spec [sql-query])
-         (assoc query :result)
-         )))
+         (assoc query :result))))
 
 (defn run-queries-and-get-results
   "Takes in the path to the configuration file, data source and a hash map of parameters for
@@ -59,11 +56,9 @@
        (map get-queries)
        (flatten)
        (render-queries query-params-map)
-       (pmap (partial fire-query data-source)))
-  )
+       (pmap (partial fire-query data-source))))
 
 (defn -AQS
   [config-file data-source query-params-map]
   (let [query-params-map (into {} query-params-map)]
-    (run-queries-and-get-results config-file data-source query-params-map)
-    ))
+    (run-queries-and-get-results config-file data-source query-params-map)))

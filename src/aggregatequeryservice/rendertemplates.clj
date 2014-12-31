@@ -20,5 +20,4 @@
 (defn render-templates
   [template-list extra-params-map query-results]
   (let [ftl-config (ftl/gen-config :shared extra-params-map)]
-    (pmap (partial render-template ftl-config query-results) template-list))
-  )
+    (pmap (partial render-template ftl-config query-results) template-list)))
