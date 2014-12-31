@@ -7,12 +7,11 @@
   :name aggregatequeryservice.postservice
   :methods [#^{:static true} [executeQueriesAndPostResults [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] String]]))
 
-(defn post-template [http-post-uri http-post-headers jsondata]
-  (let [jsondata (apply str jsondata)]
-    (with-open [client (h/create-client)]
-      (let [resp (h/POST client http-post-uri :body jsondata :headers http-post-headers)]
-        (h/await resp)
-        (h/string resp)))))
+(defn post-template [http-post-uri http-post-headers payload]
+  (with-open [client (h/create-client)]
+    (let [resp (h/POST client http-post-uri :body payload :headers http-post-headers)]
+      (h/await resp)
+      (h/string resp))))
 
 (defn run-queries-render-templates-post
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
@@ -20,9 +19,10 @@
         {query-json-path :query_json_path http-post-uri :http-post-uri template-list :template_query_map} aqs-config-map]
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map)
-         (post-template http-post-uri http-post-headers))))
+         (pmap (partial post-template http-post-uri http-post-headers)))))
 
 (defn -executeQueriesAndPostResults
+  "Java exposed service"
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
   (let [query-params-map (into {} query-params-map)]
     extra-params-map (into {} extra-params-map)

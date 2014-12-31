@@ -31,6 +31,5 @@
 (def filter-first (comp first filter))
 
 (defn print-and-return [k]
-  (println "some")
   (println k)
   k)

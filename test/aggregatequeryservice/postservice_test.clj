@@ -33,7 +33,7 @@
                                  (with-redefs [h/POST mock-http-requests
                                                h/await mock-http-requests
                                                h/string mock-http-requests]
-                                   (let [response (first (ap/run-queries-render-templates-post "resources/http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
+                                   (let [response (flatten (ap/run-queries-render-templates-post "resources/http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
                                      (nth response 1)
                                      =>
                                      "mocked_uri"
