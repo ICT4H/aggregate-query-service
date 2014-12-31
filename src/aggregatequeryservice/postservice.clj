@@ -9,9 +9,10 @@
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
-    (let [resp (h/POST client http-post-uri :body payload :headers http-post-headers)]
-      (h/await resp)
-      (h/string resp))))
+    (let [response (h/POST client http-post-uri :body payload :headers http-post-headers)]
+      (-> response
+          h/await
+          h/string))))
 
 (defn run-queries-render-templates-post
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
