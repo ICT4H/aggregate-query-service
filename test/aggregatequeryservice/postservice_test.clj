@@ -3,7 +3,8 @@
   (:use [midje.sweet])
   (:require [clojure-test-datasetup.core :as ds]
             [http.async.client :refer :all :as h]
-            [aggregatequeryservice.postservice :as ap]))
+            [aggregatequeryservice.postservice :as ap]
+            [clojure.data.json :as json]))
 
 (def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
                             (.setUrl "jdbc:sqlite:db/postservicetest.db"))})
@@ -18,17 +19,33 @@
                         "random" "110"))
 
 (def http-post-headers (hash-map
+                         :header-1 "header-1"
                          ))
 
 (defn mock-post [& args]
-  (println args)
-  (future "YAY") )
+  args
+  )
+
+(defn mock-await [& args]
+  args)
+
+(defn mock-string [& args]
+  args)
 
 (facts "Post Contents to Some URL"
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/postservice-dataset.json" db-spec)))
                             (after :facts (ds/tear-down-dataset "resources/postservice-dataset.json" db-spec))]
                            (fact "post a template"
-                                 (with-redefs [h/POST mock-post]
-                                   [(clojure.data.json/read-str (ap/run-queries-render-templates-post "resources/http_config.json" (get db-spec :datasource) query-params-map extra-params {}))])
-                                 =>
-                                 (clojure.data.json/read-str "{\"dataSet\": \"Rendered Dataset\",\"period\": \"20141111\",\"orgUnit\": \"71345684\",\"dataValues\": [{\"dataElement\": \"AiPqHCbJQJ1\",\"categoryOptionCombo\": \"u2QXNMacZLt\",\"value\": \"110\"},{\"dataElement\": \"AiPqHCbJQJ1\",\"categoryOptionCombo\": \"DA2N93v7s0O\",\"value\": \"First\"}]}"))))
+                                 (with-redefs [h/POST mock-post
+                                               h/await mock-await
+                                               h/string mock-string]
+                                   (let [response (first (ap/run-queries-render-templates-post "resources/http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
+                                     (nth response 1)
+                                     =>
+                                     "mocked_uri"
+                                     (json/read-str (nth response 3))
+                                     =>
+                                     (json/read-str "{\n\"dataSet\": \"Rendered Dataset\",\n\"period\": \"20141111\",\n\"orgUnit\": \"71345684\",\n\"dataValues\": [\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"u2QXNMacZLt\",\n\"value\": \"110\"\n},\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"DA2N93v7s0O\",\n\"value\": \"First\"\n}\n]\n}")
+                                     (nth response 5)
+                                     =>
+                                     http-post-headers)))))

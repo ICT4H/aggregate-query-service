@@ -6,5 +6,5 @@
       "query_list": ["Query 1"]
     }
   ],
-  "http-post-uri": "https://192.168.33.10/log"
+  "http-post-uri": "mocked_uri"
 }
