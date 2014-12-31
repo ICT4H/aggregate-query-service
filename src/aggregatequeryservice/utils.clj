@@ -28,8 +28,7 @@
   [coll]
   (first (is-of-size 1 coll)))
 
-(defn sanitize-template [stringified-template]
-  (clojure.string/replace stringified-template #"[\"]" "\""))
+(def filter-first (comp first filter))
 
 (defn print-and-return [k]
   (println "some")

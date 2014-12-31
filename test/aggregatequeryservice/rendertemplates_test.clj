@@ -2,8 +2,7 @@
   (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
   (:use [midje.sweet])
   (:require [aggregatequeryservice.rendertemplates :refer :all :as rt]
-            [aggregatequeryservice.utils :refer :all :as utils]
-            [clojure-test-datasetup.core :as ds]))
+            [freemarker-clj.core :as ftl]))
 
 (def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
                             (.setUrl "jdbc:sqlite:db/test.db"))})
@@ -45,6 +44,8 @@
                        })
 
 
+(def ftl-config (ftl/gen-config :shared extra-params))
+
 (facts "Get query result according to name"
        (fact "Return the only query result by query name"
              (rt/get-query-result query-results "Query 3")
@@ -65,14 +66,14 @@
 
 (facts "Render template with query results"
        (fact "Render ftl with one query result"
-             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map1))
+             (clojure.data.json/read-str (rt/render-template ftl-config query-results template-map1))
              =>
              (clojure.data.json/read-str "{\"dataSet\":\"Rendered Dataset\",
                    \"orgUnit\":\"71345684\",
                    \"period\":\"20141111\",
                    \"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}"))
        (fact "Render ftl with multiple query results"
-             (clojure.data.json/read-str (rt/render-template extra-params query-results template-map2))
+             (clojure.data.json/read-str (rt/render-template ftl-config query-results template-map2))
              =>
              (clojure.data.json/read-str "{\"dataSet\":\"Rendered Dataset\",
                    \"orgUnit\":\"71345684\",

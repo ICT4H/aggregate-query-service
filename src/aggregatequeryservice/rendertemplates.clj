@@ -12,14 +12,15 @@
   )
 
 (defn render-template
-  [extra-params-map query-results {template-path :template_path query-name-list :query_list}]
+  [ftl-config query-results {template-path :template_path query-name-list :query_list}]
   (->> query-name-list
        (map (partial get-query-result query-results))
        (apply merge)
-       (ftl/render (ftl/gen-config :shared extra-params-map) template-path)))
+       (ftl/render ftl-config template-path)))
 
 (defn render-templates
   [aqs-config-map extra-params-map query-results]
-  (let [template-list (get aqs-config-map :template_query_map)]
-    (pmap (partial render-template extra-params-map query-results) template-list))
+  (let [template-list (get aqs-config-map :template_query_map)
+        ftl-config (ftl/gen-config :shared extra-params-map)]
+    (pmap (partial render-template ftl-config query-results) template-list))
   )
