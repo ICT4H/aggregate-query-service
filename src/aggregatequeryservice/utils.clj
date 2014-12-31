@@ -1,6 +1,5 @@
 (ns aggregatequeryservice.utils
-  (:import (java.io FileNotFoundException)
-           (java.net URL))
+  (:import (java.io FileNotFoundException))
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]))
 

@@ -24,7 +24,7 @@
 (defn -executeQueriesAndPostResults
   "Java exposed service"
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
-  (let [query-params-map (into {} query-params-map)]
-    extra-params-map (into {} extra-params-map)
-    http-post-headers (into {} http-post-headers)
+  (let [query-params-map (into {} query-params-map)
+        extra-params-map (into {} extra-params-map)
+        http-post-headers (into {} http-post-headers)]
     (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)))
