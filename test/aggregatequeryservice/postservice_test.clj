@@ -22,23 +22,17 @@
                          :header-1 "header-1"
                          ))
 
-(defn mock-post [& args]
+(defn mock-http-requests [& args]
   args
   )
-
-(defn mock-await [& args]
-  args)
-
-(defn mock-string [& args]
-  args)
 
 (facts "Post Contents to Some URL"
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/postservice-dataset.json" db-spec)))
                             (after :facts (ds/tear-down-dataset "resources/postservice-dataset.json" db-spec))]
                            (fact "post a template"
-                                 (with-redefs [h/POST mock-post
-                                               h/await mock-await
-                                               h/string mock-string]
+                                 (with-redefs [h/POST mock-http-requests
+                                               h/await mock-http-requests
+                                               h/string mock-http-requests]
                                    (let [response (first (ap/run-queries-render-templates-post "resources/http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
                                      (nth response 1)
                                      =>

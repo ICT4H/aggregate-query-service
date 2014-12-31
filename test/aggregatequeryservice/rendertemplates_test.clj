@@ -1,11 +1,7 @@
 (ns aggregatequeryservice.rendertemplates-test
-  (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
   (:use [midje.sweet])
   (:require [aggregatequeryservice.rendertemplates :refer :all :as rt]
             [freemarker-clj.core :as ftl]))
-
-(def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
-                            (.setUrl "jdbc:sqlite:db/test.db"))})
 
 (def extra-params (hash-map
                     :dataset "Rendered Dataset"
@@ -38,10 +34,6 @@
                       {:result         ({:v2 "Rendered v2", :v4 "Rendered v4", :v5 "Rendered v5"}),
                        :queryGroupname "Query Group Actual", :queryName "Query 20", :query "select * from some_other_table;"}))
 
-(def templates-config {
-                       :query_json_path    "doesn't matter"
-                       :template_query_map [template-map1 template-map2]
-                       })
 
 
 (def ftl-config (ftl/gen-config :shared extra-params))
@@ -83,7 +75,7 @@
 
 (facts "Render template with query results"
        (fact "Render ftl with multiple template maps"
-             (map clojure.data.json/read-str (rt/render-templates templates-config extra-params query-results))
+             (map clojure.data.json/read-str (rt/render-templates [template-map1 template-map2] extra-params query-results))
              =>
              (clojure.data.json/read-str "[\n {\n  \"dataSet\": \"Rendered Dataset\",\n  \"period\": \"20141111\",\n  \"orgUnit\": \"71345684\",\n  \"dataValues\": [\n      {\n      \"dataElement\": \"AiPqHCbJQJ1\",\n      \"categoryOptionCombo\": \"u2QXNMacZLt\",\n      \"value\": \"Rendered v1\"\n    },\n    {\n    \"dataElement\": \"AiPqHCbJQJ1\",\n    \"categoryOptionCombo\": \"UBdaznQ8DlT\",\n    \"value\": \"Rendered v3\"\n    },\n    {\n    \"dataElement\": \"AiPqHCbJQJ2\",\n    \"categoryOptionCombo\": \"KahybAysMCQ\",\n    \"value\": \"Rendered v6\"\n    }\n  ]\n}, \n{\n  \"dataSet\": \"Rendered Dataset\",\n  \"period\": \"20141111\",\n  \"orgUnit\": \"71345684\",\n  \"dataValues\": [\n    {\n      \"dataElement\": \"AiPqHCbJQJ1\",\n      \"categoryOptionCombo\": \"u2QXNMacZLt\",\n      \"value\": \"Rendered v1\"\n    },\n    {\n      \"dataElement\": \"AiPqHCbJQJ1\",\n      \"categoryOptionCombo\": \"DA2N93v7s0O\",\n      \"value\": \"Rendered v2\"\n    },\n    {\n      \"dataElement\": \"AiPqHCbJQJ1\",\n      \"categoryOptionCombo\": \"UBdaznQ8DlT\",\n      \"value\": \"Rendered v3\"\n    },\n    {\n      \"dataElement\": \"AiPqHCbJQJ2\",\n      \"categoryOptionCombo\": \"tSwmrlTW11V\",\n      \"value\": \"Rendered v4\"\n    },\n    {\n      \"dataElement\": \"AiPqHCbJQJ2\",\n      \"categoryOptionCombo\": \"GYRYyntlK7n\",\n      \"value\": \"Rendered v5\"\n    },\n    {\n      \"dataElement\": \"AiPqHCbJQJ2\",\n      \"categoryOptionCombo\": \"KahybAysMCQ\",\n      \"value\": \"Rendered v6\"\n    }\n  ]\n} \n ]"))
        )
