@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+
+    <changeSet id="aggregate-query-service-201501020718" author="Mihir">
+        <createTable tableName="aqs_task">
+            <column name="aqs_task_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="aqs_config_path" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="query_config_path" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="task_status" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

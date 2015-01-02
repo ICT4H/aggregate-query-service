@@ -10,9 +10,10 @@
                            [org.xerial/sqlite-jdbc "3.8.7"]
                            [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]
                            [freemarker-clj "0.1.0"]
-                           [http.async.client "0.5.2"]]
+                           [http.async.client "0.5.2"]
+                           [yesql "0.4.0"]]
             :main aggregatequeryservice.postservice
-            :resource-paths ["resource"]
+            :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
             :aliases {"test" ["midje"]}
