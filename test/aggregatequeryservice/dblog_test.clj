@@ -13,9 +13,12 @@
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/dblog-dataset.json" db-spec)))
                             (after :facts (ds/tear-down-dataset "resources/dblog-dataset.json" db-spec))]
                            (fact "Insert the task"
-                                 (dblog/insert-task "test-aqs-config-path" datasource "IN PROGRESS")
-                                 (let [result (jdbc/query db-spec ["select * from aqs_task where aqs_config_path=?;" "test-aqs-config-path"])
-                                       [{aqs-config-path :aqs_config_path task-status :task_status}] result]
+                                 (let [task-id (dblog/insert-task "test-aqs-config-path" datasource "IN PROGRESS")
+                                       result (jdbc/query db-spec ["select * from aqs_task where aqs_config_path=?;" "test-aqs-config-path"])
+                                       [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id date-created :date_created}] result]
+                                   task-id
+                                   =>
+                                   actual-task-id
                                    aqs-config-path
                                    =>
                                    "test-aqs-config-path"

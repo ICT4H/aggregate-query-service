@@ -15,6 +15,9 @@
             <column name="task_status" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="date_created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

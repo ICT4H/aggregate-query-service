@@ -13,13 +13,18 @@
       {
         "column-name": "task_status",
         "column-datatype": "text"
+      },
+      {
+        "column-name": "date_created",
+        "column-datatype": "text"
       }
     ],
     "data": [
       {
         "aqs_task_id": 1,
         "aqs_config_path": "config-path",
-        "task_status": "in progress"
+        "task_status": "in progress",
+        "date_created": "somedate"
       }
     ]
   }
