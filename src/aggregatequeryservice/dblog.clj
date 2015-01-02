@@ -7,7 +7,7 @@
 
 (defn insert-task [aqs-config-path data-source status]
   (let [db-spec {:datasource data-source}]
-    (get (insert-task<! db-spec aqs-config-path (get aqs-config-path :query_json_path) status) :aqs_task_id 0)))
+    (get (insert-task<! db-spec aqs-config-path status) :aqs_task_id 0)))
 
 (defn update-task [task_id data-source status]
   (let [db-spec {:datasource data-source}]

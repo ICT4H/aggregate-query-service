@@ -1,0 +1,26 @@
+[
+  {
+    "table-name": "aqs_task",
+    "table-structure": [
+      {
+        "column-name": "aqs_task_id",
+        "column-datatype": "int"
+      },
+      {
+        "column-name": "aqs_config_path",
+        "column-datatype": "text"
+      },
+      {
+        "column-name": "task_status",
+        "column-datatype": "text"
+      }
+    ],
+    "data": [
+      {
+        "aqs_task_id": 1,
+        "aqs_config_path": "config-path",
+        "task_status": "in progress"
+      }
+    ]
+  }
+]

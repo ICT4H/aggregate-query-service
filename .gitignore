@@ -10,4 +10,5 @@ pom.xml.asc
 .idea
 *.iml
 db/test.db
+db/*.db
 db/postservicetest.db

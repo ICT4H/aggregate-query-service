@@ -12,9 +12,6 @@
             <column name="aqs_config_path" type="varchar(1024)">
                 <constraints nullable="false"/>
             </column>
-            <column name="query_config_path" type="varchar(1024)">
-                <constraints nullable="false"/>
-            </column>
             <column name="task_status" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
