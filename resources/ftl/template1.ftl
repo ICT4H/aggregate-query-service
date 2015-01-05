@@ -1,22 +1,24 @@
 {
-  "dataSet": "${dataset}",
-  "period": "${period}",
-  "orgUnit": "${organization}",
-  "dataValues": [
-      {
-      "dataElement": "AiPqHCbJQJ1",
-      "categoryOptionCombo": "u2QXNMacZLt",
-      "value": "${v1}"
+    "dataSet": "${dataset}",
+    "period": "${period}",
+    "orgUnit": "${organization}",
+    "dataValues": [
+<#list Query_19 as row>
+    {
+    "dataElement": "AiPqHCbJQJ1",
+    "categoryOptionCombo": "u2QXNMacZLt",
+    "value": "${row.v1}"
     },
     {
     "dataElement": "AiPqHCbJQJ1",
     "categoryOptionCombo": "UBdaznQ8DlT",
-    "value": "${v3}"
+    "value": "${row.v3}"
     },
     {
     "dataElement": "AiPqHCbJQJ2",
     "categoryOptionCombo": "KahybAysMCQ",
-    "value": "${v6}"
+    "value": "${row.v6}"
     }
-  ]
+</#list>
+]
 }

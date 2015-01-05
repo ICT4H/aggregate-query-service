@@ -11,7 +11,7 @@
 
 (defn test-config-mapping
   []
-  (utils/read-config "resources/sample_config.json"))
+  (utils/read-config "sample_config.json"))
 
 (facts "Create self sufficient query object"
        (fact "Add query group name to query object"
@@ -41,7 +41,7 @@
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/test-dataset.json" db-spec)))
                             (after :facts (ds/tear-down-dataset "resources/test-dataset.json" db-spec))]
                            (fact "Read JSON and fire queries and return back the result set"
-                                 (aqs/run-queries-and-get-results "resources/sample_config.json" (get db-spec :datasource) (hash-map))
+                                 (aqs/run-queries-and-get-results "sample_config.json" (get db-spec :datasource) (hash-map))
                                  =>
                                  '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                                     :queryGroupname "Query Group 1", :queryName "Query 1", :query "select * from something;"}

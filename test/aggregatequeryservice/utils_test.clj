@@ -5,7 +5,7 @@
 
 (defn test-config-mapping
   ([]
-    (utils/read-config "resources/sample_config.json"))
+    (utils/read-config "sample_config.json"))
   ([config-file]
     (utils/read-config config-file)))
 

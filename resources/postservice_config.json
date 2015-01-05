@@ -3,7 +3,7 @@
     "queryGroupname": "Query Group 1",
     "queries": [
       {
-        "queryName": "Query 1",
+        "queryName": "Query_1",
         "query": "select v1, v2 from something where v1 = :random:;"
       }
     ]

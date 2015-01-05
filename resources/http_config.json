@@ -1,9 +1,9 @@
 {
-  "query_json_path": "resources/postservice_config.json",
+  "query_json_path": "postservice_config.json",
   "template_query_map": [
     {
       "template_path": "resources/ftl/template3.ftl",
-      "query_list": ["Query 1"]
+      "query_list": ["Query_1"]
     }
   ],
   "http-post-uri": "mocked_uri"

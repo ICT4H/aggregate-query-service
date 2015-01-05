@@ -5,10 +5,12 @@
 (defn is-query-name [query-name query]
   (= query-name (:queryName query)))
 
-(def get-first-result (comp first-one :result filter-first))
+(def get-results (comp :result filter-first))
 
 (defn get-query-result [query-results query-to-render]
-  (get-first-result (partial is-query-name query-to-render) query-results))
+  (->> query-results
+       (get-results (partial is-query-name query-to-render))
+       (hash-map (keyword query-to-render))))
 
 (defn render-template
   [ftl-config query-results {template-path :template_path query-name-list :query_list}]
