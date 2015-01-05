@@ -6,8 +6,7 @@
             [http.async.client :refer :all :as h])
   (:gen-class
   :name aggregatequeryservice.postservice
-  :methods [#^{:static true} [executeQueriesAndPostResultsAsync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] Long]]
-            [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] String]]))
+  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] String]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
@@ -23,17 +22,6 @@
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map)
          (pmap (partial post-template http-post-uri http-post-headers)))))
-
-(defn -executeQueriesAndPostResultsAsync
-  "Java exposed async API"
-  [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
-  (let [query-params-map (into {} query-params-map)
-        extra-params-map (into {} extra-params-map)
-        http-post-headers (into {} http-post-headers)
-        task-id (dblog/insert-task aqs-config-path data-source "In Progress")]
-    (future (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)
-            (dblog/update-task task-id data-source "Done"))
-    task-id))
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
