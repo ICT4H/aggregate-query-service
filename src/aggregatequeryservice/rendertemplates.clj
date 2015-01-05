@@ -26,7 +26,9 @@
 (defn render-templates
   [template-list extra-params-map template-base-dir query-results]
   (let [class-loader (doto (new ClassTemplateLoader (class Configuration) "/"))
-        file-loader (doto (new FileTemplateLoader (new File template-base-dir)))
+        file-loader (if (nil? template-base-dir)
+                      (doto (new FileTemplateLoader))
+                      (doto (new FileTemplateLoader (new File template-base-dir))))
         multi-template-loader (doto (new MultiTemplateLoader (into-array TemplateLoader [class-loader file-loader])))
         ftl-config (doto (ftl/gen-config :shared extra-params-map)
                      (.setTemplateLoader multi-template-loader))]
