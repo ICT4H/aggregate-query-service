@@ -1,5 +1,6 @@
 (ns aggregatequeryservice.runqueries
-  (:require [clojure.java.jdbc :as jdbc])
+  (:require [clojure.java.jdbc :as jdbc]
+            [aggregatequeryservice.dblog :as dblog])
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
@@ -60,5 +61,8 @@
 
 (defn -AQS
   [config-file data-source query-params-map]
-  (let [query-params-map (into {} query-params-map)]
-    (run-queries-and-get-results config-file data-source query-params-map)))
+  (let [query-params-map (into {} query-params-map)
+        task-id (dblog/insert-task config-file data-source "In Progress")
+        task-future (future (run-queries-and-get-results config-file data-source query-params-map)
+                            (dblog/update-task task-id data-source "Done"))]
+    {:results task-future :task_id task-id}))

@@ -3,7 +3,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-
     <changeSet id="aggregate-query-service-201501020718" author="Mihir">
         <createTable tableName="aqs_task">
             <column name="aqs_task_id" type="bigint" autoIncrement="true">
