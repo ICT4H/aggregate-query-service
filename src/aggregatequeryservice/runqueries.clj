@@ -4,7 +4,7 @@
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
-  :methods [#^{:static true} [AQS [String javax.sql.DataSource java.util.HashMap] java.util.List]]))
+  :methods [#^{:static true} [AQS [String javax.sql.DataSource java.util.HashMap] Object]]))
 
 (defn get-queries
   "Appends query group name to every query object"
