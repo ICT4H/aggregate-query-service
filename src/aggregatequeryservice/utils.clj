@@ -15,9 +15,11 @@
        (#(re-find % string))
        (not-nil?)))
 
+
+
 (defn read-config [config-file]
   (try
-    (slurp (io/file (io/resource config-file)))
+    (slurp (io/input-stream (io/resource config-file)))
     (catch FileNotFoundException f
       (slurp config-file))
     (catch Exception n
