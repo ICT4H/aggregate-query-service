@@ -11,7 +11,7 @@
 
 (defn test-config-mapping
   []
-  (utils/read-config "sample_config.json"))
+  (utils/read-config-to-map "sample_config.json"))
 
 (facts "Create self sufficient query object"
        (fact "Add query group name to query object"

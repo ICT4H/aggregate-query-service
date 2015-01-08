@@ -53,7 +53,7 @@
   "Takes in the path to the configuration file, data source and a hash map of parameters for
   the SQL to completely render it."
   [config-file data-source query-params-map]
-  (->> (read-config config-file)
+  (->> (read-config-to-map config-file)
        (map get-queries)
        (flatten)
        (render-queries query-params-map)
@@ -62,7 +62,9 @@
 (defn -AQS
   [config-file data-source query-params-map]
   (let [query-params-map (into {} query-params-map)
-        task-id (dblog/insert-task config-file data-source "In Progress")
-        task-future (future (run-queries-and-get-results config-file data-source query-params-map)
-                            (dblog/update-task task-id data-source "Done"))]
+        task-id (dblog/insert-task data-source config-file "IN PROGRESS" query-params-map)
+        task-future (future
+                      (let [results (run-queries-and-get-results config-file data-source query-params-map)]
+                        (dblog/update-task data-source task-id "DONE" (clojure.data.json/write-str results))
+                        (clojure.data.json/write-str results)))]
     {:results task-future :task_id task-id}))

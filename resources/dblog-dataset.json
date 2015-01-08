@@ -17,6 +17,18 @@
       {
         "column-name": "date_created",
         "column-datatype": "text"
+      },
+      {
+        "column-name": "results",
+        "column-datatype": "text"
+      },
+      {
+        "column-name": "input_parameters",
+        "column-datatype": "text"
+      },
+      {
+        "column-name": "query_config",
+        "column-datatype": "text"
       }
     ],
     "data": [
@@ -24,7 +36,10 @@
         "aqs_task_id": 1,
         "aqs_config_path": "config-path",
         "task_status": "in progress",
-        "date_created": "somedate"
+        "date_created": "somedate",
+        "results": "{\"dataSet\":\"Rendered Dataset\",\"orgUnit\":\"71345684\",\"period\":\"20141111\",\"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}",
+        "input_parameters": "[{\"some\" : \"Ok\"}]",
+        "query_config": "{\"dataSet\":\"Rendered Dataset\",\"orgUnit\":\"71345684\",\"period\":\"20141111\",\"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}"
       }
     ]
   }

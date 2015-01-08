@@ -15,7 +15,7 @@
        (#(re-find % string))
        (not-nil?)))
 
-(defn slurp-more [config-file]
+(defn read-config [config-file]
   (try
     (slurp (io/file (io/resource config-file)))
     (catch FileNotFoundException f
@@ -23,10 +23,10 @@
     (catch Exception n
       (slurp config-file))))
 
-(defn read-config
+(defn read-config-to-map
   "Reads the config file from the file path given"
   [config-file]
-  (let [file-read (slurp-more config-file)]
+  (let [file-read (read-config config-file)]
     (json/read-str file-read :key-fn keyword)))
 
 (def filter-first (comp first filter))

@@ -19,4 +19,16 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="aggregate-query-service-201501080718" author="Mujir, Mihir">
+        <addColumn schemaName="public" tableName="aqs_task">
+            <column name="results" type="text"/>
+        </addColumn>
+        <addColumn schemaName="public" tableName="aqs_task">
+            <column name="input_parameters" type="text"/>
+        </addColumn>
+        <addColumn schemaName="public" tableName="aqs_task">
+            <column name="query_config" type="text"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

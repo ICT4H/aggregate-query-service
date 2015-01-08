@@ -17,7 +17,7 @@
 
 (defn run-queries-render-templates-post
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
-  (let [aqs-config-map (u/read-config aqs-config-path)
+  (let [aqs-config-map (u/read-config-to-map aqs-config-path)
         {query-json-path :query_json_path http-post-uri :http-post-uri template-list :template_query_map template-base-dir :template_base} aqs-config-map]
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map template-base-dir)
@@ -29,6 +29,7 @@
   (let [query-params-map (into {} query-params-map)
         extra-params-map (into {} extra-params-map)
         http-post-headers (into {} http-post-headers)
-        task-id (dblog/insert-task aqs-config-path data-source "In Progress")]
-    (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)
-    (dblog/update-task task-id data-source "Done")))
+        task-id (dblog/insert-task data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
+        results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)]
+    (dblog/update-task data-source task-id "DONE" results)
+    results))
