@@ -31,5 +31,6 @@
                       (doto (new FileTemplateLoader (new File template-base-dir))))
         multi-template-loader (doto (new MultiTemplateLoader (into-array TemplateLoader [class-loader file-loader])))
         ftl-config (doto (ftl/gen-config :shared extra-params-map)
+                    (.setLocalizedLookup false)
                      (.setTemplateLoader multi-template-loader))]
     (pmap (partial render-template ftl-config query-results) template-list)))
