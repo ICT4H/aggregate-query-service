@@ -15,8 +15,6 @@
        (#(re-find % string))
        (not-nil?)))
 
-
-
 (defn read-config [config-file]
   (try
     (slurp (io/input-stream (io/resource config-file)))

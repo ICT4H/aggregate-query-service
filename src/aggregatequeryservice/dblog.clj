@@ -7,6 +7,7 @@
 (defquery insert-task<! "insert_task.sql")
 (defquery get-task "get_task.sql")
 (defquery update-task! "update_task.sql")
+(defquery get-task-by-id* "get_task_by_id.sql")
 
 (defn insert-task [data-source aqs-config-path status input-params]
   (let [db-spec {:datasource data-source}
@@ -20,3 +21,7 @@
   (let [db-spec {:datasource data-source}
         results (write-str results)]
     (update-task! db-spec status results task-id)))
+
+(defn get-task-by-id [datasource task-id]
+  (let [db-spec {:datasource datasource}]
+    (first (get-task-by-id* db-spec task-id))))

@@ -9,6 +9,9 @@
                   (.setUrl "jdbc:sqlite:db/dblogtest.db")))
 (def db-spec {:datasource datasource})
 
+(def ^:private results-json
+  "{\"dataSet\":\"Rendered Dataset\",\"orgUnit\":\"71345684\",\"period\":\"20141111\",\"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}")
+
 (def query-results '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                       :queryGroupname "Query Group 1", :queryName "Query_1", :query "select * from something;"}
                       {:result         ({:name "Some Other Name", :id 2}),
@@ -23,6 +26,8 @@
                        :queryGroupname "Query Group Actual", :queryName "Query_19", :query "select * from some_table;"}
                       {:result         ({:v2 "Rendered v2", :v4 "Rendered v4", :v5 "Rendered v5"}),
                        :queryGroupname "Query Group Actual", :queryName "Query_20", :query "select * from some_other_table;"}))
+
+(def ^:private task-id 1)
 
 (facts "Insert and Update tasks in db"
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/dblog-dataset.json" db-spec)))
@@ -69,9 +74,27 @@
 
                                    query-results
                                    =>
-                                   (clojure.data.json/read-str results :key-fn keyword)))))
+                                   (clojure.data.json/read-str results :key-fn keyword)))
+                           (fact "Given a task id return the task"
+                                 (let [result (dblog/get-task-by-id datasource task-id)
+                                       {aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results} result]
+                                   "config-path"
+                                   =>
+                                   aqs-config-path
 
+                                   "in progress"
+                                   =>
+                                   task-status
 
+                                   "somedate"
+                                   =>
+                                   date-created
 
-
-
+                                   (clojure.data.json/read-str results-json :key-fn keyword)
+                                   =>
+                                   (clojure.data.json/read-str results :key-fn keyword)))
+                           (fact "Given a non existent task id return empty list"
+                                 (let [result (dblog/get-task-by-id datasource 0)]
+                                   true
+                                   =>
+                                   (nil? result)))))
