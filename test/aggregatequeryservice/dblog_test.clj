@@ -34,7 +34,7 @@
                             (after :facts (ds/tear-down-dataset "resources/dblog-dataset.json" db-spec))]
                            (fact "Insert the task"
                                  (let [query-params (hash-map :renderThis "rdThis" :renderThat "rdThat" :replaceThis "rpThis" :replaceThat "rpThat")
-                                       task-id (dblog/insert-task datasource "sample_config.json" "IN PROGRESS" query-params)
+                                       task-id (dblog/insert datasource "sample_config.json" "IN PROGRESS" query-params)
                                        result (jdbc/query db-spec ["select * from aqs_task where aqs_config_path=?;" "sample_config.json"])
                                        [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters}] result]
                                    (clojure.data.json/read-str input-params :key-fn keyword)
@@ -57,7 +57,7 @@
                                    =>
                                    "IN PROGRESS"))
                            (fact "Update Task"
-                                 (let [update (dblog/update-task datasource 1 "DONE" query-results)
+                                 (let [update (dblog/update datasource 1 "DONE" query-results)
                                        updated-row (jdbc/query db-spec ["select * from aqs_task where aqs_task_id=?;" 1])
                                        [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results}] updated-row]
                                    "config-path"

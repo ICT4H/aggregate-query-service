@@ -3,7 +3,6 @@
   (:require [clojure.data.json :as json]
             [clojure.java.io :as io]))
 
-
 (def not-nil? (complement nil?))
 
 (defn is-substring-of

@@ -29,7 +29,7 @@
   (let [query-params-map (into {} query-params-map)
         extra-params-map (into {} extra-params-map)
         http-post-headers (into {} http-post-headers)
-        task-id (dblog/insert-task data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
+        task-id (dblog/insert data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
         results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)]
-    (dblog/update-task data-source task-id "DONE" results)
+    (dblog/update data-source task-id "DONE" results)
     results))
