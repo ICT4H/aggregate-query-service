@@ -35,7 +35,7 @@
   (let [db-spec {:datasource datasource}]
     (get-all-tasks* db-spec)))
 
-(defn -getTaskById [datasource task-id]
+(defn -getTaskById [this datasource task-id]
   (get-task-by-id datasource task-id))
 
 (defn -getAllTasks [this datasource]
