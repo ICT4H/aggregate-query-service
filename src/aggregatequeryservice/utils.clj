@@ -1,6 +1,6 @@
 (ns aggregatequeryservice.utils
   (:import (java.io FileNotFoundException))
-  (:require [clojure.data.json :as json]
+  (:require [cheshire.core :refer :all]
             [clojure.java.io :as io]))
 
 (def not-nil? (complement nil?))
@@ -26,7 +26,7 @@
   "Reads the config file from the file path given"
   [config-file]
   (let [file-read (read-config config-file)]
-    (json/read-str file-read :key-fn keyword)))
+    (parse-string file-read true)))
 
 (def filter-first (comp first filter))
 

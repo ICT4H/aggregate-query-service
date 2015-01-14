@@ -1,6 +1,7 @@
 (ns aggregatequeryservice.runqueries
   (:require [clojure.java.jdbc :as jdbc]
-            [aggregatequeryservice.dblog :as dblog])
+            [aggregatequeryservice.dblog :as dblog]
+            [cheshire.core :refer :all])
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
@@ -65,6 +66,6 @@
         task-id (dblog/insert data-source config-file "IN PROGRESS" query-params-map)
         task-future (future
                       (let [results (run-queries-and-get-results config-file data-source query-params-map)]
-                        (dblog/update data-source task-id "DONE" (clojure.data.json/write-str results))
-                        (clojure.data.json/write-str results)))]
+                        (dblog/update data-source task-id "DONE" (generate-string results))
+                        (generate-string results)))]
     {:results task-future :task_id task-id}))

@@ -4,7 +4,7 @@
             :license {:name "Apache License, Version 2.0"
                       :url  "http://www.apache.org/licenses/LICENSE-2.0.html"}
             :dependencies [[org.clojure/clojure "1.6.0"]
-                           [org.clojure/data.json "0.2.5"]
+                           [cheshire "5.4.0"]
                            [org.clojure/java.jdbc "0.3.6"]
                            [midje "1.6.3"]
                            [org.xerial/sqlite-jdbc "3.8.7"]

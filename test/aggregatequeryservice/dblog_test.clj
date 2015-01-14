@@ -3,7 +3,8 @@
   (:use [midje.sweet])
   (:require [clojure-test-datasetup.core :as ds]
             [aggregatequeryservice.dblog :as dblog]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [cheshire.core :refer :all]))
 
 (def datasource (doto (new SQLiteConnectionPoolDataSource)
                   (.setUrl "jdbc:sqlite:db/dblogtest.db")))
@@ -37,11 +38,11 @@
                                        task-id (dblog/insert datasource "sample_config.json" "IN PROGRESS" query-params)
                                        result (jdbc/query db-spec ["select * from aqs_task where aqs_config_path=?;" "sample_config.json"])
                                        [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters}] result]
-                                   (clojure.data.json/read-str input-params :key-fn keyword)
+                                   (parse-string input-params true)
                                    =>
                                    query-params
 
-                                   (clojure.data.json/read-str query-config :key-fn keyword)
+                                   (parse-string query-config true)
                                    =>
                                    (aggregatequeryservice.utils/read-config-to-map "sample_config.json")
 
@@ -74,7 +75,7 @@
 
                                    query-results
                                    =>
-                                   (clojure.data.json/read-str results :key-fn keyword)))
+                                   (parse-string results true)))
                            (fact "Given a task id return the task"
                                  (let [result (dblog/get-task-by-id datasource task-id)
                                        {aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results} result]
@@ -90,9 +91,9 @@
                                    =>
                                    date-created
 
-                                   (clojure.data.json/read-str results-json :key-fn keyword)
+                                   (parse-string results-json true)
                                    =>
-                                   (clojure.data.json/read-str results :key-fn keyword)))
+                                   (parse-string results true)))
                            (fact "Given a non existent task id return empty list"
                                  (let [result (dblog/get-task-by-id datasource 0)]
                                    true

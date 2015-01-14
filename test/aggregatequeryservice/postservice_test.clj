@@ -4,7 +4,7 @@
   (:require [clojure-test-datasetup.core :as ds]
             [http.async.client :refer :all :as h]
             [aggregatequeryservice.postservice :as ap]
-            [clojure.data.json :as json]))
+            [cheshire.core :refer :all]))
 
 (def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
                             (.setUrl "jdbc:sqlite:db/postservicetest.db"))})
@@ -37,9 +37,9 @@
                                      (nth response 1)
                                      =>
                                      "mocked_uri"
-                                     (json/read-str (nth response 3))
+                                     (parse-string (nth response 3) true)
                                      =>
-                                     (json/read-str "{\n\"dataSet\": \"Rendered Dataset\",\n\"period\": \"20141111\",\n\"orgUnit\": \"71345684\",\n\"dataValues\": [\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"u2QXNMacZLt\",\n\"value\": \"110\"\n},\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"DA2N93v7s0O\",\n\"value\": \"First\"\n}\n]\n}")
+                                     (parse-string "{\n\"dataSet\": \"Rendered Dataset\",\n\"period\": \"20141111\",\n\"orgUnit\": \"71345684\",\n\"dataValues\": [\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"u2QXNMacZLt\",\n\"value\": \"110\"\n},\n{\n\"dataElement\": \"AiPqHCbJQJ1\",\n\"categoryOptionCombo\": \"DA2N93v7s0O\",\n\"value\": \"First\"\n}\n]\n}" true)
                                      (nth response 5)
                                      =>
                                      http-post-headers)))))

@@ -1,12 +1,11 @@
 (ns aggregatequeryservice.dblog
   (:require [aggregatequeryservice.utils :refer :all :as u]
-            [yesql.core :refer [defquery]])
-  (:use clojure.data.json)
+            [yesql.core :refer [defquery]]
+            [cheshire.core :refer :all])
   (:import (java.util Date))
   (:gen-class
-    :methods [[getTaskById [javax.sql.DataSource Integer] Object]
-              [getAllTasks [javax.sql.DataSource] Object]]
-  ))
+  :methods [[getTaskById [javax.sql.DataSource Integer] Object]
+            [getAllTasks [javax.sql.DataSource] Object]]))
 
 (defquery insert-task<! "insert_task.sql")
 (defquery get-task "get_task.sql")
@@ -16,7 +15,7 @@
 
 (defn insert [data-source aqs-config-path status input-params]
   (let [db-spec {:datasource data-source}
-        input-params-json (write-str input-params)
+        input-params-json (generate-string input-params)
         query-config-json (u/read-config aqs-config-path)
         date (new Date)]
     (insert-task<! db-spec aqs-config-path status date input-params-json query-config-json)
@@ -24,7 +23,7 @@
 
 (defn update [data-source task-id status results]
   (let [db-spec {:datasource data-source}
-        results (write-str results)]
+        results (generate-string results)]
     (update-task! db-spec status results task-id)))
 
 (defn get-task-by-id [datasource task-id]
@@ -39,14 +38,5 @@
   (get-task-by-id datasource task-id))
 
 (defn -getAllTasks [this datasource]
-  ; TODO - Mujir - this isnt robust as db column value knowledge is needed.
-  (defn custom-date-writer [key value]
-    (if (= key :date_created)
-      (str (java.sql.Date. (.getTime value)))
-      value))
-
-    (clojure.data.json/write-str (get-all-tasks datasource)
-                                 :value-fn custom-date-writer
-                                 :key-fn name
-                                 ))
+  (generate-string (get-all-tasks datasource)))
 
