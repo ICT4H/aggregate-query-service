@@ -4,8 +4,8 @@
             [cheshire.core :refer :all])
   (:import (java.util Date))
   (:gen-class
-  :methods [[getTaskById [javax.sql.DataSource Integer] Object]
-            [getAllTasks [javax.sql.DataSource] Object]]))
+  :methods [[getTaskById [org.bahmni.module.common.db.JDBCConnectionProvider Integer] Object]
+            [getAllTasks [org.bahmni.module.common.db.JDBCConnectionProvider] Object]]))
 
 (defquery insert-task<! "insert_task.sql")
 (defquery get-task "get_task.sql")

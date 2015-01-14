@@ -5,7 +5,7 @@
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
-  :methods [#^{:static true} [AQS [String JDBCConnectionProvider java.util.HashMap] Object]])
+  :methods [#^{:static true} [AQS [String org.bahmni.module.common.db.JDBCConnectionProvider java.util.HashMap] Object]])
   (:import (org.bahmni.module.common.db JDBCConnectionProvider)))
 
 (defn get-queries
