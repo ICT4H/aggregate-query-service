@@ -1,13 +1,13 @@
 (ns aggregatequeryservice.runqueries-test
-  (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
+  (:import (connectionprovider TestConnectionProvider))
   (:use [midje.sweet])
   (:require [aggregatequeryservice.runqueries :refer :all :as aqs]
             [aggregatequeryservice.utils :refer :all :as utils]
             [clojure-test-datasetup.core :as ds]))
 
-(def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
-                            (.setUrl "jdbc:sqlite:db/test.db"))})
+(def connection-provider (doto (new TestConnectionProvider "jdbc:sqlite:db/test.db")))
 
+(def db-spec {:datasource (.getDataSource connection-provider)})
 
 (defn test-config-mapping
   []
@@ -41,7 +41,7 @@
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/test-dataset.json" db-spec)))
                             (after :facts (ds/tear-down-dataset "resources/test-dataset.json" db-spec))]
                            (fact "Read JSON and fire queries and return back the result set"
-                                 (aqs/run-queries-and-get-results "sample_config.json" (get db-spec :datasource) (hash-map))
+                                 (aqs/run-queries-and-get-results "sample_config.json" connection-provider (hash-map))
                                  =>
                                  '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                                     :queryGroupname "Query Group 1", :queryName "Query 1", :query "select * from something;"}

@@ -1,5 +1,6 @@
 (ns aggregatequeryservice.utils
-  (:import (java.io FileNotFoundException))
+  (:import (java.io FileNotFoundException)
+           (org.bahmni.module.common.db JDBCConnectionProvider))
   (:require [cheshire.core :refer :all]
             [clojure.java.io :as io]))
 
@@ -33,3 +34,11 @@
 (defn print-and-return [k]
   (println k)
   k)
+
+(defn do-with-connection [function-partial connection-provider]
+  (try
+    (let [connection (.getConnection connection-provider)]
+      (function-partial connection))
+    (finally
+      (.closeConnection connection-provider))))
+

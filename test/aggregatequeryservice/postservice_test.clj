@@ -1,13 +1,13 @@
 (ns aggregatequeryservice.postservice-test
-  (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
+  (:import (connectionprovider TestConnectionProvider))
   (:use [midje.sweet])
   (:require [clojure-test-datasetup.core :as ds]
             [http.async.client :refer :all :as h]
             [aggregatequeryservice.postservice :as ap]
             [cheshire.core :refer :all]))
 
-(def db-spec {:datasource (doto (new SQLiteConnectionPoolDataSource)
-                            (.setUrl "jdbc:sqlite:db/postservicetest.db"))})
+(def connection-provider (doto (new TestConnectionProvider "jdbc:sqlite:db/postservicetest.db")))
+(def db-spec {:datasource (.getDataSource connection-provider)})
 
 (def extra-params (hash-map
                     :dataset "Rendered Dataset"
@@ -33,7 +33,7 @@
                                  (with-redefs [h/POST mock-http-requests
                                                h/await mock-http-requests
                                                h/string mock-http-requests]
-                                   (let [response (flatten (ap/run-queries-render-templates-post "http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
+                                   (let [response (flatten (ap/run-queries-render-templates-post "http_config.json" connection-provider query-params-map extra-params http-post-headers))]
                                      (nth response 1)
                                      =>
                                      "mocked_uri"

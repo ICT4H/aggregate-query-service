@@ -1,14 +1,14 @@
 (ns aggregatequeryservice.dblog-test
-  (:import (org.sqlite.javax SQLiteConnectionPoolDataSource))
+  (:import (connectionprovider TestConnectionProvider))
   (:use [midje.sweet])
   (:require [clojure-test-datasetup.core :as ds]
             [aggregatequeryservice.dblog :as dblog]
             [clojure.java.jdbc :as jdbc]
             [cheshire.core :refer :all]))
 
-(def datasource (doto (new SQLiteConnectionPoolDataSource)
-                  (.setUrl "jdbc:sqlite:db/dblogtest.db")))
-(def db-spec {:datasource datasource})
+(def connection-provider (doto (new TestConnectionProvider "jdbc:sqlite:db/dblogtest.db")))
+(def db-spec {:datasource (.getDataSource connection-provider)})
+(def connection (.getConnection connection-provider))
 
 (def ^:private results-json
   "{\"dataSet\":\"Rendered Dataset\",\"orgUnit\":\"71345684\",\"period\":\"20141111\",\"dataValues\":[{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"u2QXNMacZLt\",\"value\":\"Rendered v1\"},{\"dataElement\":\"AiPqHCbJQJ1\",\"categoryOptionCombo\":\"UBdaznQ8DlT\",\"value\":\"Rendered v3\"},{\"dataElement\":\"AiPqHCbJQJ2\",\"categoryOptionCombo\":\"KahybAysMCQ\",\"value\":\"Rendered v6\"}]}")
@@ -35,7 +35,7 @@
                             (after :facts (ds/tear-down-dataset "resources/dblog-dataset.json" db-spec))]
                            (fact "Insert the task"
                                  (let [query-params (hash-map :renderThis "rdThis" :renderThat "rdThat" :replaceThis "rpThis" :replaceThat "rpThat")
-                                       task-id (dblog/insert datasource "sample_config.json" "IN PROGRESS" query-params)
+                                       task-id (dblog/insert "sample_config.json" "IN PROGRESS" query-params connection)
                                        result (jdbc/query db-spec ["select * from aqs_task where aqs_config_path=?;" "sample_config.json"])
                                        [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters}] result]
                                    (parse-string input-params true)
@@ -58,7 +58,7 @@
                                    =>
                                    "IN PROGRESS"))
                            (fact "Update Task"
-                                 (let [update (dblog/update datasource 1 "DONE" query-results)
+                                 (let [update (dblog/update 1 "DONE" query-results connection)
                                        updated-row (jdbc/query db-spec ["select * from aqs_task where aqs_task_id=?;" 1])
                                        [{aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results}] updated-row]
                                    "config-path"
@@ -77,7 +77,7 @@
                                    =>
                                    (parse-string results true)))
                            (fact "Given a task id return the task"
-                                 (let [result (dblog/get-task-by-id datasource task-id)
+                                 (let [result (dblog/get-task-by-id task-id connection)
                                        {aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results} result]
                                    "config-path"
                                    =>
@@ -95,7 +95,7 @@
                                    =>
                                    (parse-string results true)))
                            (fact "Given a non existent task id return empty list"
-                                 (let [result (dblog/get-task-by-id datasource 0)]
+                                 (let [result (dblog/get-task-by-id 0 connection)]
                                    true
                                    =>
                                    (nil? result)))))
