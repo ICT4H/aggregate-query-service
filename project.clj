@@ -33,6 +33,9 @@
                                          :password  :env}]
                            ["snapshots-clojars" {:url       "https://clojars.org/repo/"
                                                  :releases  true
+                                                 :snapshots true}]
+                           ["bahmni-snapshots" {:url       "http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local"
+                                                 :releases  true
                                                  :snapshots true}]]
             :plugins [[lein-midje "3.1.3"]]
             :scm {:name                 "git"
