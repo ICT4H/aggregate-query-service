@@ -1,4 +1,4 @@
-(defproject org.ict4h/aggregate-query-service "1.0"
+(defproject org.ict4h/aggregate-query-service "1.0-SNAPSHOT"
             :description "Aggregate Query Service"
             :url "https://github.com/ICT4H/aggregate-query-service"
             :license {:name "Apache License, Version 2.0"
@@ -22,9 +22,6 @@
             :parent [org.sonatype.oss/oss-parent "7"]
             :packaging "jar"
             :name "aggregate-query-service"
-            :repositories [["snapshots-clojars" {:url       "https://clojars.org/repo/"
-                                                 :releases  true
-                                                 :snapshots true}]]
             :deploy-repositories [["snapshots" {:url       "https://oss.sonatype.org/content/repositories/snapshots"
                                                 :id        "sonatype-nexus-snapshots"
                                                 :name      "Sonatype Nexus Snapshots"
@@ -32,7 +29,7 @@
                                                 :snapshots true
                                                 :username  "ict4h"
                                                 :password  :env}]
-                                  ["releases" {:url       "https://oss.sonatype.org/content/repositories/staging"
+                                  ["releases" {:url       "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
                                                :id        "sonatype-nexus-staging"
                                                :name      "Sonatype Nexus Staging"
                                                :signing   {:gpg-key "AFE37B24"}
@@ -45,4 +42,9 @@
                   :tag                  "HEAD"
                   :url                  "https://github.com/ICT4H/aggregate-query-service"
                   :connection           "scm:git:git@github.com:ICT4H/aggregate-query-service.git"
-                  :developer-connection "scm:git:git@github.com:ICT4H/aggregate-query-service.git"})
+                  :developer-connection "scm:git:git@github.com:ICT4H/aggregate-query-service.git"}
+            :pom-addition [:developers [:developer
+                                        [:id 1]
+                                        [:name "ICT4H"]
+                                        [:email "ict4h@thoughtworks.com"]
+                                        [:organization "ThoughtWorks, Inc."]]])
