@@ -7,7 +7,7 @@
   (:gen-class
   :name aggregatequeryservice.postservice
   :methods [#^{:static true} [executeQueriesAndPostResultsSync [String org.bahmni.module.common.db.JDBCConnectionProvider java.util.HashMap java.util.HashMap java.util.HashMap] Object]])
-  (:import (org.bahmni.module.common.db JDBCConnectionProvider)))
+  (:import (connectionprovider AQSConnectionProvider)))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
@@ -26,7 +26,7 @@
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
-  [aqs-config-path ^JDBCConnectionProvider connection-provider query-params-map extra-params-map http-post-headers]
+  [aqs-config-path ^AQSConnectionProvider connection-provider query-params-map extra-params-map http-post-headers]
   (let [query-params-map (into {} query-params-map)
         extra-params-map (into {} extra-params-map)
         http-post-headers (into {} http-post-headers)

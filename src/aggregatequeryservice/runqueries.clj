@@ -5,8 +5,8 @@
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
-  :methods [#^{:static true} [AQS [String org.bahmni.module.common.db.JDBCConnectionProvider java.util.HashMap] Object]])
-  (:import (org.bahmni.module.common.db JDBCConnectionProvider)))
+  :methods [#^{:static true} [AQS [String AQSConnectionProvider java.util.HashMap] Object]])
+  (:import (connectionprovider AQSConnectionProvider)))
 
 (defn get-queries
   "Appends query group name to every query object"
@@ -65,7 +65,7 @@
        (pmap (partial fire-query-wrapper connection-provider))))
 
 (defn -AQS
-  [config-file ^JDBCConnectionProvider connection-provider query-params-map]
+  [config-file ^AQSConnectionProvider connection-provider query-params-map]
   (let [query-params-map (into {} query-params-map)
         task-id (do-with-connection (partial dblog/insert config-file "IN PROGRESS" query-params-map) connection-provider)
         task-future (future

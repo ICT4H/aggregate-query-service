@@ -1,6 +1,6 @@
 (ns aggregatequeryservice.utils
   (:import (java.io FileNotFoundException)
-           (org.bahmni.module.common.db JDBCConnectionProvider))
+           (connectionprovider AQSConnectionProvider))
   (:require [cheshire.core :refer :all]
             [clojure.java.io :as io]))
 

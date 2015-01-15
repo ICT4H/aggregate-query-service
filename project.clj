@@ -1,4 +1,4 @@
-(defproject org.ict4h/aggregate-query-service "1.0-SNAPSHOT"
+(defproject org.ict4h/aggregate-query-service "1.1-SNAPSHOT"
             :description "Aggregate Query Service"
             :url "https://github.com/ICT4H/aggregate-query-service"
             :license {:name "Apache License, Version 2.0"
@@ -9,7 +9,6 @@
                            [midje "1.6.3"]
                            [org.xerial/sqlite-jdbc "3.8.7"]
                            [org.bahmni/clojure-test-datasetup "1.0-SNAPSHOT"]
-                           [org.bahmni.module/common "5.2-SNAPSHOT"]
                            [freemarker-clj "0.1.0"]
                            [http.async.client "0.5.2"]
                            [yesql "0.4.0"]]
@@ -17,7 +16,7 @@
             :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
-            :java-source-paths ["test/connectionprovider"]
+            :java-source-paths ["test/connectionprovider" "src/connectionprovider"]
             :aliases {"test" ["midje"]}
             :group-id "org.ict4h"
             :artifact-id "aggregate-query-service"
@@ -35,8 +34,8 @@
                                                  :releases  true
                                                  :snapshots true}]
                            ["bahmni-snapshots" {:url       "http://bahmnirepo.thoughtworks.com/artifactory/libs-snapshot-local"
-                                                 :releases  true
-                                                 :snapshots true}]]
+                                                :releases  true
+                                                :snapshots true}]]
             :plugins [[lein-midje "3.1.3"]]
             :scm {:name                 "git"
                   :tag                  "HEAD"

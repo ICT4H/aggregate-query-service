@@ -1,13 +1,12 @@
 package connectionprovider;
 
-import org.bahmni.module.common.db.JDBCConnectionProvider;
 import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class TestConnectionProvider implements JDBCConnectionProvider {
+public class TestConnectionProvider implements AQSConnectionProvider {
 
     public final SQLiteConnectionPoolDataSource sqLiteConnectionPoolDataSource;
     private Connection connection;
