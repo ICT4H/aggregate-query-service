@@ -33,7 +33,7 @@
                                          :id        "sonatype-nexus-staging"
                                          :name      "Sonatype Nexus Staging"
                                          :releases  true
-                                         :snapshots false
+                                         :snapshots true
                                          :username  "ict4h"
                                          :password  :env}]
                            ["snapshots-clojars" {:url       "https://clojars.org/repo/"
