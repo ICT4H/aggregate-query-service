@@ -22,23 +22,24 @@
             :parent [org.sonatype.oss/oss-parent "7"]
             :packaging "jar"
             :name "aggregate-query-service"
-            :repositories [["snapshots" {:url       "https://oss.sonatype.org/content/repositories/snapshots"
-                                         :id        "sonatype-nexus-snapshots"
-                                         :name      "Sonatype Nexus Snapshots"
-                                         :releases  false
-                                         :snapshots true
-                                         :username  "ict4h"
-                                         :password  :env}]
-                           ["staging" {:url       "https://oss.sonatype.org/content/repositories/staging"
-                                         :id        "sonatype-nexus-staging"
-                                         :name      "Sonatype Nexus Staging"
-                                         :releases  true
-                                         :snapshots true
-                                         :username  "ict4h"
-                                         :password  :env}]
-                           ["snapshots-clojars" {:url       "https://clojars.org/repo/"
+            :repositories [["snapshots-clojars" {:url       "https://clojars.org/repo/"
                                                  :releases  true
                                                  :snapshots true}]]
+            :deploy-repositories [["snapshots" {:url       "https://oss.sonatype.org/content/repositories/snapshots"
+                                                :id        "sonatype-nexus-snapshots"
+                                                :name      "Sonatype Nexus Snapshots"
+                                                :releases  false
+                                                :snapshots true
+                                                :username  "ict4h"
+                                                :password  :env}]
+                                  ["releases" {:url       "https://oss.sonatype.org/content/repositories/staging"
+                                               :id        "sonatype-nexus-staging"
+                                               :name      "Sonatype Nexus Staging"
+                                               :signing   {:gpg-key "AFE37B24"}
+                                               :releases  true
+                                               :snapshots true
+                                               :username  "ict4h"
+                                               :password  :env}]]
             :plugins [[lein-midje "3.1.3"]]
             :scm {:name                 "git"
                   :tag                  "HEAD"
