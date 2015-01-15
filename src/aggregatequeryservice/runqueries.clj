@@ -72,4 +72,4 @@
                       (let [results (run-queries-and-get-results config-file connection-provider query-params-map)]
                         (do-with-connection (partial dblog/update task-id "DONE" (generate-string results)) connection-provider)
                         (generate-string results)))]
-    {:results task-future :task_id task-id}))
+    {"results" task-future "task-future" task-id}))
