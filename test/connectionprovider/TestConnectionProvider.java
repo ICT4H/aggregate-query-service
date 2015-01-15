@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class TestConnectionProvider implements AQSConnectionProvider {
 
     public final SQLiteConnectionPoolDataSource sqLiteConnectionPoolDataSource;
-    private Connection connection;
+    private ThreadLocal<Connection> connection = new ThreadLocal<>();
 
     public TestConnectionProvider(String dbURL) {
         sqLiteConnectionPoolDataSource = new SQLiteConnectionPoolDataSource();
@@ -24,10 +24,10 @@ public class TestConnectionProvider implements AQSConnectionProvider {
     @Override
     public Connection getConnection() {
         try {
-            if (connection == null) {
-                connection = sqLiteConnectionPoolDataSource.getPooledConnection().getConnection();
+            if (connection.get() == null) {
+                connection.set(sqLiteConnectionPoolDataSource.getPooledConnection().getConnection());
             }
-            return connection;
+            return connection.get();
         } catch (SQLException e) {
             throw new RuntimeException("Cannot get connection", e);
         }
@@ -36,7 +36,7 @@ public class TestConnectionProvider implements AQSConnectionProvider {
     @Override
     public void closeConnection() {
         try {
-            connection.close();
+            connection.get().close();
         } catch (SQLException e) {
             throw new RuntimeException("lol", e);
         }
