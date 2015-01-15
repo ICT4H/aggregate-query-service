@@ -29,9 +29,9 @@
                                          :snapshots true
                                          :username  "ict4h"
                                          :password  :env}]
-                           ["releases" {:url       "https://oss.sonatype.org/content/repositories/releases"
-                                         :id        "sonatype-nexus-releases"
-                                         :name      "Sonatype Nexus Releases"
+                           ["staging" {:url       "https://oss.sonatype.org/content/repositories/staging"
+                                         :id        "sonatype-nexus-staging"
+                                         :name      "Sonatype Nexus Staging"
                                          :releases  true
                                          :snapshots false
                                          :username  "ict4h"
