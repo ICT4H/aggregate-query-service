@@ -16,6 +16,7 @@
             :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
+            :source-paths ["src/aggregatequeryservice" "test/aggregatequeryservice"]
             :java-source-paths ["test/connectionprovider" "src/connectionprovider"]
             :aliases {"test" ["midje"]}
             :group-id "org.ict4h"
