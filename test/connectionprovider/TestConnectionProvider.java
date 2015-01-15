@@ -8,24 +8,30 @@ import java.sql.SQLException;
 
 public class TestConnectionProvider implements AQSConnectionProvider {
 
-    public final SQLiteConnectionPoolDataSource sqLiteConnectionPoolDataSource;
+    private final String dbURL;
+
+    public final ThreadLocal<SQLiteConnectionPoolDataSource> sqLiteConnectionPoolDataSource = new ThreadLocal<>();
     private ThreadLocal<Connection> connection = new ThreadLocal<>();
 
     public TestConnectionProvider(String dbURL) {
-        sqLiteConnectionPoolDataSource = new SQLiteConnectionPoolDataSource();
-        sqLiteConnectionPoolDataSource.setUrl(dbURL);
+        this.dbURL = dbURL;
     }
 
 
     public DataSource getDataSource() {
-        return sqLiteConnectionPoolDataSource;
+        if (sqLiteConnectionPoolDataSource.get() == null) {
+            SQLiteConnectionPoolDataSource ds = new SQLiteConnectionPoolDataSource();
+            ds.setUrl(dbURL);
+            sqLiteConnectionPoolDataSource.set(ds);
+        }
+        return sqLiteConnectionPoolDataSource.get();
     }
 
     @Override
     public Connection getConnection() {
         try {
             if (connection.get() == null) {
-                connection.set(sqLiteConnectionPoolDataSource.getPooledConnection().getConnection());
+                connection.set(((SQLiteConnectionPoolDataSource) getDataSource()).getPooledConnection().getConnection());
             }
             return connection.get();
         } catch (SQLException e) {
