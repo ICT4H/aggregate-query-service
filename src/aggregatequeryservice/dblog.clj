@@ -2,7 +2,7 @@
   (:require [aggregatequeryservice.utils :refer :all :as utils]
             [yesql.core :refer [defquery]]
             [cheshire.core :refer :all])
-  (:import (java.util Date))
+  (:import (java.util Date UUID))
   (:gen-class
   :methods [[getTaskById [connectionprovider.AQSConnectionProvider Integer] Object]
             [getAllTasks [connectionprovider.AQSConnectionProvider] Object]]))
@@ -17,9 +17,10 @@
   (let [db-spec {:connection connection}
         input-params-json (generate-string input-params)
         query-config-json (utils/read-config aqs-config-path)
-        date (new Date)]
-    (insert-task<! db-spec aqs-config-path status date input-params-json query-config-json)
-    (get (first (get-task db-spec aqs-config-path status date)) :aqs_task_id 0)))
+        date (new Date)
+        uuid (.toString (UUID/randomUUID))]
+    (insert-task<! db-spec aqs-config-path status date input-params-json query-config-json uuid)
+    (get (first (get-task db-spec uuid)) :aqs_task_id -1)))
 
 (defn update [task-id status results connection]
   (let [db-spec {:connection connection}

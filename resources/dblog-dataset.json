@@ -29,6 +29,10 @@
       {
         "column-name": "query_config",
         "column-datatype": "text"
+      },
+      {
+        "column-name": "uuid",
+        "column-datatype": "varchar(38)"
       }
     ],
     "data": [

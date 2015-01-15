@@ -1,7 +1,8 @@
 (ns aggregatequeryservice.runqueries
   (:require [clojure.java.jdbc :as jdbc]
             [aggregatequeryservice.dblog :as dblog]
-            [cheshire.core :refer :all])
+            [cheshire.core :refer :all]
+            [clojure.stacktrace :refer :all])
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
@@ -68,8 +69,11 @@
   [config-file ^AQSConnectionProvider connection-provider query-params-map]
   (let [query-params-map (into {} query-params-map)
         task-id (do-with-connection (partial dblog/insert config-file "IN PROGRESS" query-params-map) connection-provider)
+        printtask (println task-id)
         task-future (future
-                      (let [results (run-queries-and-get-results config-file connection-provider query-params-map)]
-                        (do-with-connection (partial dblog/update task-id "DONE" (generate-string results)) connection-provider)
-                        (generate-string results)))]
-    {"results" task-future "task-future" task-id}))
+                      (try
+                        (let [results (run-queries-and-get-results config-file connection-provider query-params-map)]
+                          (do-with-connection (partial dblog/update task-id "DONE" (generate-string results)) connection-provider))
+                        (catch Exception e
+                          (do-with-connection (partial dblog/update task-id "ERROR" (with-out-str (print-stack-trace e))) connection-provider))))]
+    {"results" task-future "task-id" task-id}))

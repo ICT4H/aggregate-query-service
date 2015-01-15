@@ -31,4 +31,9 @@
             <column name="query_config" type="text"/>
         </addColumn>
     </changeSet>
+    <changeSet id="aggregate-query-service-201501150718" author="Mujir, Mihir">
+        <addColumn tableName="aqs_task">
+            <column name="uuid" type="varchar(38)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
