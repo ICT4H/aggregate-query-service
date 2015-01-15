@@ -5,7 +5,7 @@
   (:use aggregatequeryservice.utils)
   (:gen-class
   :name aggregatequeryservice.runqueries
-  :methods [#^{:static true} [AQS [String AQSConnectionProvider java.util.HashMap] Object]])
+  :methods [#^{:static true} [AQS [String connectionprovider.AQSConnectionProvider java.util.HashMap] Object]])
   (:import (connectionprovider AQSConnectionProvider)))
 
 (defn get-queries

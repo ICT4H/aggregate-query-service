@@ -6,8 +6,7 @@
             [http.async.client :refer :all :as h])
   (:gen-class
   :name aggregatequeryservice.postservice
-  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String AQSConnectionProvider java.util.HashMap java.util.HashMap java.util.HashMap] Object]])
-  (:import (connectionprovider AQSConnectionProvider)))
+  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String connectionprovider.AQSConnectionProvider java.util.HashMap java.util.HashMap java.util.HashMap] Object]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
@@ -26,7 +25,7 @@
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
-  [aqs-config-path ^AQSConnectionProvider connection-provider query-params-map extra-params-map http-post-headers]
+  [aqs-config-path ^connectionprovider.AQSConnectionProvider connection-provider query-params-map extra-params-map http-post-headers]
   (let [query-params-map (into {} query-params-map)
         extra-params-map (into {} extra-params-map)
         http-post-headers (into {} http-post-headers)
