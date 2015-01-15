@@ -6,7 +6,7 @@
             [http.async.client :refer :all :as h])
   (:gen-class
   :name aggregatequeryservice.postservice
-  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String org.bahmni.module.common.db.JDBCConnectionProvider java.util.HashMap java.util.HashMap java.util.HashMap] Object]])
+  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String connectionprovider.AQSConnectionProvider java.util.HashMap java.util.HashMap java.util.HashMap] Object]])
   (:import (connectionprovider AQSConnectionProvider)))
 
 (defn post-template [http-post-uri http-post-headers payload]
