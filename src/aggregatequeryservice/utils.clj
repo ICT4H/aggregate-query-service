@@ -42,3 +42,18 @@
     (finally
       (.closeConnection connection-provider))))
 
+(defn map-keyfn [hashmap key-fn]
+  (into {}
+        (for [[k v] hashmap]
+          [(key-fn k) v])))
+
+(defn map-keyword-to-name [hashmap]
+  (map-keyfn hashmap name))
+
+(defn strip-results [hashmap]
+  (dissoc hashmap :results))
+
+(defn convert-to-java-map [hashmap]
+  (->> hashmap
+       (strip-results)
+       (map-keyword-to-name)))

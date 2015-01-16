@@ -36,10 +36,7 @@
     (get-all-tasks* db-spec)))
 
 (defn -getTaskById [this connection-provider task-id]
-  (utils/do-with-connection (partial get-task-by-id task-id) connection-provider))
-
-(defn strip-results [hashmap]
-  (dissoc hashmap :results))
+  (map-keyword-to-name (utils/do-with-connection (partial get-task-by-id task-id) connection-provider)))
 
 (defn -getAllTasks [this connection-provider]
-  (map strip-results (utils/do-with-connection get-all-tasks connection-provider)))
+  (map convert-to-java-map (utils/do-with-connection get-all-tasks connection-provider)))

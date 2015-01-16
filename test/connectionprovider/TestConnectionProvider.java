@@ -30,7 +30,7 @@ public class TestConnectionProvider implements AQSConnectionProvider {
     @Override
     public Connection getConnection() {
         try {
-            if (connection.get() == null) {
+            if (connection.get() == null || connection.get().isClosed() || !connection.get().isValid(5)) {
                 connection.set(((SQLiteConnectionPoolDataSource) getDataSource()).getPooledConnection().getConnection());
             }
             return connection.get();
