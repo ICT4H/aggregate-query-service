@@ -38,5 +38,8 @@
 (defn -getTaskById [this connection-provider task-id]
   (utils/do-with-connection (partial get-task-by-id task-id) connection-provider))
 
+(defn strip-results [hashmap]
+  (dissoc hashmap :results))
+
 (defn -getAllTasks [this connection-provider]
-  (generate-string (utils/do-with-connection get-all-tasks connection-provider)))
+  (map strip-results (utils/do-with-connection get-all-tasks connection-provider)))
