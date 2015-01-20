@@ -54,7 +54,4 @@
 (defn strip-results [hashmap]
   (dissoc hashmap :results))
 
-(defn convert-to-task [record]
-  (->> record
-       (strip-results)
-       (create-record)))
+(def convert-to-task (comp create-record strip-results))
