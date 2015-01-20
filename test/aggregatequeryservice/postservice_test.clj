@@ -12,19 +12,16 @@
 (def extra-params (hash-map
                     :dataset "Rendered Dataset"
                     :period "20141111"
-                    :organization "71345684"
-                    ))
+                    :organization "71345684"))
 
 (def query-params-map (hash-map
                         "random" "110"))
 
 (def http-post-headers (hash-map
-                         :header-1 "header-1"
-                         ))
+                         :header-1 "header-1"))
 
 (defn mock-http-requests [& args]
-  args
-  )
+  args)
 
 (facts "Post Contents to Some URL"
        (with-state-changes [(before :facts (dorun (ds/setup-dataset "resources/postservice-dataset.json" db-spec)))

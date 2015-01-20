@@ -13,6 +13,7 @@
                            [http.async.client "0.5.2"]
                            [yesql "0.4.0"]]
             :main aggregatequeryservice.postservice
+            :aot [aggregatequeryservice.aqstask aggregatequeryservice.postservice]
             :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}

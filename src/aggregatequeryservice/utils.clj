@@ -2,7 +2,8 @@
   (:import (java.io FileNotFoundException)
            (connectionprovider AQSConnectionProvider))
   (:require [cheshire.core :refer :all]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [aggregatequeryservice.aqstask :refer :all]))
 
 (def not-nil? (complement nil?))
 
@@ -53,7 +54,7 @@
 (defn strip-results [hashmap]
   (dissoc hashmap :results))
 
-(defn convert-to-java-map [hashmap]
-  (->> hashmap
+(defn convert-to-task [record]
+  (->> record
        (strip-results)
-       (map-keyword-to-name)))
+       (create-record)))

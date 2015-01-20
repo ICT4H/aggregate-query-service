@@ -78,7 +78,7 @@
                                    (parse-string results true)))
                            (fact "Given a task id return the task"
                                  (let [result (dblog/get-task-by-id task-id connection)
-                                       {aqs-config-path :aqs_config_path task-status :task_status actual-task-id :aqs_task_id query-config :query_config input-params :input_parameters date-created :date_created results :results} result]
+                                       {aqs-config-path :aqsConfigPath task-status :taskStatus date-created :dateCreated results :results} result]
                                    "config-path"
                                    =>
                                    aqs-config-path
@@ -93,9 +93,4 @@
 
                                    (parse-string results-json true)
                                    =>
-                                   (parse-string results true)))
-                           (fact "Given a non existent task id return empty list"
-                                 (let [result (dblog/get-task-by-id 0 connection)]
-                                   true
-                                   =>
-                                   (nil? result)))))
+                                   (parse-string results true)))))
