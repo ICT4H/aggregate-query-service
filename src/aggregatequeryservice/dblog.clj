@@ -45,7 +45,7 @@
         tasks (get-all-in-progress-tasks* db-spec)]
     tasks))
 
-(defn -getTaskById [connection-provider task-id]
+(defn -getTaskById [this connection-provider task-id]
   (create-record (utils/do-with-connection (partial get-task-by-id task-id) connection-provider)))
 
 (defn ^java.util.ArrayList -getAllTasks [this connection-provider]
