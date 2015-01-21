@@ -13,12 +13,11 @@
                            [http.async.client "0.5.2"]
                            [yesql "0.4.0"]]
             :main aggregatequeryservice.postservice
-            :aot [aggregatequeryservice.aqstask]
             :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"
             :profiles {:uberjar {:aot :all}}
             :source-paths ["src/" "test/aggregatequeryservice"]
-            :java-source-paths ["test/connectionprovider" "src/connectionprovider"]
+            :java-source-paths ["test/connectionprovider" "src/connectionprovider", "src/aggregatequeryservice/aqstask"]
             :aliases {"test" ["midje"]}
             :group-id "org.ict4h"
             :artifact-id "aggregate-query-service"

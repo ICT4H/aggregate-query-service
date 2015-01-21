@@ -3,7 +3,7 @@
            (connectionprovider AQSConnectionProvider))
   (:require [cheshire.core :refer :all]
             [clojure.java.io :as io]
-            [aggregatequeryservice.aqstask :refer :all]))
+            ))
 
 (def not-nil? (complement nil?))
 
@@ -50,8 +50,3 @@
 
 (defn map-keyword-to-name [hashmap]
   (map-keyfn hashmap name))
-
-(defn strip-results [hashmap]
-  (dissoc hashmap :results))
-
-(def convert-to-task (comp create-record strip-results))

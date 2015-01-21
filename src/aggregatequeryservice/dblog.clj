@@ -2,8 +2,10 @@
   (:require [aggregatequeryservice.utils :refer :all :as utils]
             [yesql.core :refer [defquery]]
             [cheshire.core :refer :all]
-            [aggregatequeryservice.aqstask :refer :all])
-  (:import (java.util Date UUID ArrayList))
+            )
+  (:import (java.util Date UUID ArrayList)
+           (aggregatequeryservice.aqstask AQSTask)
+           (connectionprovider AQSConnectionProvider))
   (:gen-class
   :methods [[getTaskById [connectionprovider.AQSConnectionProvider Integer] Object]
             [getAllTasks [connectionprovider.AQSConnectionProvider] java.util.ArrayList]
@@ -45,12 +47,20 @@
         tasks (get-all-in-progress-tasks* db-spec)]
     tasks))
 
+(defn strip-results [hashmap]
+  (dissoc hashmap :results))
+
+(defn create-aqs-task [hashmap]
+  (let [{taskId :aqs_task_id config_path :aqs_config_path status :task_status date_created :date_created results :results input_parameters :input_parameters query_config :query_config uuid :uuid} hashmap]
+    (new AQSTask taskId config_path status date_created results input_parameters query_config uuid)))
+
+(def create-aqs-task-without-result (comp create-aqs-task strip-results))
+
 (defn -getTaskById [this connection-provider task-id]
-  (create-record (utils/do-with-connection (partial get-task-by-id task-id) connection-provider)))
+  (create-aqs-task (utils/do-with-connection (partial get-task-by-id task-id) connection-provider)))
 
 (defn ^java.util.ArrayList -getAllTasks [this connection-provider]
-  (ArrayList. (map convert-to-task (utils/do-with-connection get-all-tasks connection-provider))))
+  (ArrayList. (map create-aqs-task-without-result (utils/do-with-connection get-all-tasks connection-provider))))
 
 (defn ^java.util.ArrayList -getAllTasksInProgress [this connection-provider]
-  (ArrayList. (map convert-to-task (utils/do-with-connection get-in-progress-tasks connection-provider))))
-
+  (ArrayList. (map create-aqs-task-without-result (utils/do-with-connection get-in-progress-tasks connection-provider))))
