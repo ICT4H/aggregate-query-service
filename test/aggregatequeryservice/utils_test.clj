@@ -12,7 +12,7 @@
 
 (def connection-provider (doto (new TestConnectionProvider "jdbc:sqlite:db/test1.db")))
 (defn add [a b]
-  (+ a 1))
+  (+ a b))
 
 (def add1 (partial add 1))
 
