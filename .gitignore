@@ -12,3 +12,5 @@ pom.xml.asc
 db/test.db
 db/*.db
 db/postservicetest.db
+*~
+.projectile

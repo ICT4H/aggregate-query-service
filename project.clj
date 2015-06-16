@@ -11,7 +11,9 @@
                            [org.bahmni/clojure-test-datasetup "1.0"]
                            [freemarker-clj "0.1.0"]
                            [http.async.client "0.5.2"]
-                           [yesql "0.4.0"]]
+                           [yesql "0.4.0"]
+                           [org.slf4j/slf4j-log4j12 "1.5.6"]
+                           [org.clojure/tools.logging "0.3.1"]]
             :main aggregatequeryservice.postservice
             :resource-paths ["resources" "resources/queries"]
             :target-path "target/%s"

@@ -3,7 +3,8 @@
             [aggregatequeryservice.utils :refer :all :as u]
             [aggregatequeryservice.dblog :refer :all :as dblog]
             [aggregatequeryservice.rendertemplates :refer :all :as rt]
-            [http.async.client :refer :all :as h])
+            [http.async.client :refer :all :as h]
+            [clojure.tools.logging :as log])
   (:gen-class
   :name aggregatequeryservice.postservice
   :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] Object]]))
@@ -11,6 +12,7 @@
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
     (let [response (h/POST client http-post-uri :body payload :headers http-post-headers)]
+      (log/debug response)
       (-> response
           h/await
           h/string))))
@@ -31,5 +33,6 @@
         http-post-headers (into {} http-post-headers)
         task-id (dblog/insert data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
         results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)]
+    (log/debug results)
     (dblog/update data-source task-id "DONE" results)
     results))
