@@ -3,20 +3,23 @@
             [aggregatequeryservice.utils :refer :all :as u]
             [aggregatequeryservice.dblog :refer :all :as dblog]
             [aggregatequeryservice.rendertemplates :refer :all :as rt]
-            [http.async.client :refer :all :as h]
-            [clojure.tools.logging :as log])
+            [http.async.client :refer :all :as h])
   (:gen-class
   :name aggregatequeryservice.postservice
   :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] Object]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
-    (let [response (h/POST client http-post-uri :body payload :headers http-post-headers)]
-      (log/debug response)
-      (-> response
-          h/await
-          h/string))))
-
+    (let [response (h/await (h/POST client http-post-uri :body payload :headers http-post-headers))
+          status (:code (h/status response))
+          result  (h/string response)]
+      {
+       :status status
+       :response result
+       })))
+      
+                  
+      
 (defn run-queries-render-templates-post
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri]
   (let [aqs-config-map (u/read-config-to-map aqs-config-path)
@@ -33,6 +36,5 @@
         http-post-headers (into {} http-post-headers)
         task-id (dblog/insert data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
         results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri)]
-    (log/debug results)
     (dblog/update data-source task-id "DONE" results)
     results))
