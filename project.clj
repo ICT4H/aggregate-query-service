@@ -1,4 +1,4 @@
-(defproject org.ict4h/aggregate-query-service "1.0-SNAPSHOT"
+(defproject org.ict4h/aggregate-query-service "1.0.1-SNAPSHOT"
             :description "Aggregate Query Service"
             :url "https://github.com/ICT4H/aggregate-query-service"
             :license {:name "Apache License, Version 2.0"
@@ -34,7 +34,6 @@
                                   ["releases" {:url       "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
                                                :id        "sonatype-nexus-staging"
                                                :name      "Sonatype Nexus Staging"
-                                               :signing   {:gpg-key "AFE37B24"}
                                                :releases  true
                                                :snapshots true
                                                :username  "ict4h"
