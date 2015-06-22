@@ -22,6 +22,8 @@
                          :header-1 "header-1"
                          ))
 
+(def http-post-uri "mocked_uri")
+
 (defn mock-http-requests [& args]
   args
   )
@@ -33,7 +35,7 @@
                                  (with-redefs [h/POST mock-http-requests
                                                h/await mock-http-requests
                                                h/string mock-http-requests]
-                                   (let [response (flatten (ap/run-queries-render-templates-post "http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers))]
+                                   (let [response (flatten (ap/run-queries-render-templates-post "http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers http-post-uri))]
                                      (nth response 1)
                                      =>
                                      "mocked_uri"

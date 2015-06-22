@@ -18,21 +18,21 @@
           h/string))))
 
 (defn run-queries-render-templates-post
-  [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
+  [aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri]
   (let [aqs-config-map (u/read-config-to-map aqs-config-path)
-        {query-json-path :query_json_path http-post-uri :http-post-uri template-list :template_query_map template-base-dir :template_base} aqs-config-map]
+        {query-json-path :query_json_path template-list :template_query_map template-base-dir :template_base} aqs-config-map]
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map template-base-dir)
          (pmap (partial post-template http-post-uri http-post-headers)))))
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
-  [aqs-config-path data-source query-params-map extra-params-map http-post-headers]
+  [aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri]
   (let [query-params-map (into {} query-params-map)
         extra-params-map (into {} extra-params-map)
         http-post-headers (into {} http-post-headers)
         task-id (dblog/insert data-source aqs-config-path "IN PROGRESS" (merge query-params-map extra-params-map))
-        results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers)]
+        results (run-queries-render-templates-post aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri)]
     (log/debug results)
     (dblog/update data-source task-id "DONE" results)
     results))
