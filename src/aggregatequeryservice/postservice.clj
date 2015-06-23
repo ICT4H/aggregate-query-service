@@ -6,7 +6,7 @@
             [http.async.client :refer :all :as h])
   (:gen-class
   :name aggregatequeryservice.postservice
-  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] Object]]))
+  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] java.util.Hashmap]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
