@@ -4,21 +4,15 @@
             [freemarker-clj.core :as ftl]
             [cheshire.core :refer :all]))
 
-(def extra-params (hash-map
-                    :dataset "Rendered Dataset"
-                    :period "20141111"
-                    :organization "71345684"
-                    ))
+(def extra-params {:dataset      "Rendered Dataset"
+                   :period       "20141111"
+                   :organization "71345684"})
 
-(def template-map1 {
-                    :template_path "resources/ftl/template1.ftl"
-                    :query_list    '("Query_19")
-                    })
+(def template-map1 {:template_path "resources/ftl/template1.ftl"
+                    :query_list    '("Query_19")})
 
-(def template-map2 {
-                    :template_path "resources/ftl/template2.ftl"
-                    :query_list    '("Query_19" "Query_20")
-                    })
+(def template-map2 {:template_path "resources/ftl/template2.ftl"
+                    :query_list    '("Query_19" "Query_20")})
 
 (def query-results '({:result         ({:name "Some Name", :id 1} {:id 15, :name "Some First Name"}),
                       :queryGroupname "Query Group 1", :queryName "Query_1", :query "select * from something;"}

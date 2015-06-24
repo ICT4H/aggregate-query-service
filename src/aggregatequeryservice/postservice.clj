@@ -1,12 +1,18 @@
 (ns aggregatequeryservice.postservice
+  (:refer-clojure :exclude [await])
   (:require [aggregatequeryservice.runqueries :as aqs]
             [aggregatequeryservice.utils :as u]
             [aggregatequeryservice.dblog :as dblog]
             [aggregatequeryservice.rendertemplates :as rt]
             [http.async.client :as h])
+  (:import (java.util.HashMap))
   (:gen-class
     :name aggregatequeryservice.postservice
-    :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] java.util.Hashmap]]))
+    :methods [#^{:static true} [executeQueriesAndPostResultsSync [String
+                                                                  javax.sql.DataSource
+                                                                  java.util.HashMap
+                                                                  java.util.HashMap
+                                                                  java.util.HashMap] java.util.HashMap]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
