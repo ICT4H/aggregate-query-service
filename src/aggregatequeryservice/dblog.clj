@@ -1,5 +1,5 @@
 (ns aggregatequeryservice.dblog
-  (:require [aggregatequeryservice.utils :refer :all :as u]
+  (:require [aggregatequeryservice.utils :as u]
             [yesql.core :refer [defquery]]
             [cheshire.core :refer :all])
   (:import (java.util Date))

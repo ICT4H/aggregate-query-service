@@ -1,25 +1,21 @@
 (ns aggregatequeryservice.postservice
-  (:require [aggregatequeryservice.runqueries :refer :all :as aqs]
-            [aggregatequeryservice.utils :refer :all :as u]
-            [aggregatequeryservice.dblog :refer :all :as dblog]
-            [aggregatequeryservice.rendertemplates :refer :all :as rt]
-            [http.async.client :refer :all :as h])
+  (:require [aggregatequeryservice.runqueries :as aqs]
+            [aggregatequeryservice.utils :as u]
+            [aggregatequeryservice.dblog :as dblog]
+            [aggregatequeryservice.rendertemplates :as rt]
+            [http.async.client :as h])
   (:gen-class
-  :name aggregatequeryservice.postservice
-  :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] java.util.Hashmap]]))
+    :name aggregatequeryservice.postservice
+    :methods [#^{:static true} [executeQueriesAndPostResultsSync [String javax.sql.DataSource java.util.HashMap java.util.HashMap java.util.HashMap] java.util.Hashmap]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
     (let [response (h/await (h/POST client http-post-uri :body payload :headers http-post-headers))
           status (:code (h/status response))
-          result  (h/string response)]
-      {
-       :status status
-       :response result
-       })))
-      
-                  
-      
+          result (h/string response)]
+      {:status   status
+       :response result})))
+
 (defn run-queries-render-templates-post
   [aqs-config-path data-source query-params-map extra-params-map http-post-headers http-post-uri]
   (let [aqs-config-map (u/read-config-to-map aqs-config-path)
