@@ -12,7 +12,8 @@
                                                                   javax.sql.DataSource
                                                                   java.util.HashMap
                                                                   java.util.HashMap
-                                                                  java.util.HashMap] java.util.HashMap]]))
+                                                                  java.util.HashMap
+                                                                  String] java.util.HashMap]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]

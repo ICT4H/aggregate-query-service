@@ -35,8 +35,7 @@
                                                h/status (fn [res] {:code 200})]
                                    (let [result (ap/run-queries-render-templates-post "http_config.json" (get db-spec :datasource) query-params-map extra-params http-post-headers http-post-uri)
                                          response (flatten (:response (first result)))
-                                         status (:status (first result))
-                                         ]
+                                         status (:status (first result))]
                                      status => 200
                                      (nth response 1) => "mocked_uri"
                                      (parse-string (nth response 3) true)
