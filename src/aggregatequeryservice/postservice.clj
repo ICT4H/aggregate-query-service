@@ -30,7 +30,7 @@
         {query-json-path :query_json_path template-list :template_query_map template-base-dir :template_base} aqs-config-map]
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map template-base-dir)
-         (mapv (partial post-template http-post-uri http-post-headers)))))
+         (pmap (partial post-template http-post-uri http-post-headers)))))
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
