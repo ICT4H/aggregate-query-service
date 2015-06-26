@@ -5,7 +5,8 @@
             [aggregatequeryservice.dblog :as dblog]
             [aggregatequeryservice.rendertemplates :as rt]
             [http.async.client :as h])
-  (:import (java.util.HashMap))
+  (:import (java.util.HashMap)
+           (clojure.lang PersistentArrayMap))
   (:gen-class
     :name aggregatequeryservice.postservice
     :methods [#^{:static true} [executeQueriesAndPostResultsSync [String
@@ -13,7 +14,7 @@
                                                                   java.util.HashMap
                                                                   java.util.HashMap
                                                                   java.util.HashMap
-                                                                  String] java.util.HashMap]]))
+                                                                  String] java.util.List]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
@@ -29,7 +30,7 @@
         {query-json-path :query_json_path template-list :template_query_map template-base-dir :template_base} aqs-config-map]
     (->> (aqs/run-queries-and-get-results query-json-path data-source query-params-map)
          (rt/render-templates template-list extra-params-map template-base-dir)
-         (pmap (partial post-template http-post-uri http-post-headers)))))
+         (mapv (partial post-template http-post-uri http-post-headers)))))
 
 (defn -executeQueriesAndPostResultsSync
   "Java exposed sync API"
