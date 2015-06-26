@@ -14,7 +14,7 @@
                                                                   java.util.HashMap
                                                                   java.util.HashMap
                                                                   java.util.HashMap
-                                                                  String] java.util.List]]))
+                                                                  String] Object]]))
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
