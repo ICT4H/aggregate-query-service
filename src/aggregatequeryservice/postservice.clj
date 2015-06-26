@@ -5,8 +5,7 @@
             [aggregatequeryservice.dblog :as dblog]
             [aggregatequeryservice.rendertemplates :as rt]
             [http.async.client :as h])
-  (:import (java.util.HashMap)
-           (clojure.lang PersistentArrayMap))
+  (:import (java.util.HashMap))
   (:gen-class
     :name aggregatequeryservice.postservice
     :methods [#^{:static true} [executeQueriesAndPostResultsSync [String
