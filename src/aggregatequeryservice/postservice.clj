@@ -17,7 +17,7 @@
 
 (defn post-template [http-post-uri http-post-headers payload]
   (with-open [client (h/create-client)]
-    (let [response (h/await (h/POST client http-post-uri :body payload :headers http-post-headers))
+    (let [response (h/await (h/POST client http-post-uri :body payload :headers http-post-headers :timeout -1))
           status (:code (h/status response))
           result (h/string response)]
       {:status   status
